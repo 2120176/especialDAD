@@ -7,10 +7,10 @@ use App\Http\Resources\User as UserResource;
 
 use App\User;
 
-define('YOUR_SERVER_URL', 'http://blackjack.test');
+define('YOUR_SERVER_URL', 'http://especial.dad');
 // Check "oauth_clients" table for next 2 values:
 define('CLIENT_ID', '2');
-define('CLIENT_SECRET','hsJurXDzFBmVTdKDSOQ7xPgOY78KbjildyR22YXz');
+define('CLIENT_SECRET','Ymnatu6uquH6HL7EjJpj9vSPwne5lG5C5Mv8lobn');
 
 class LoginControllerAPI extends Controller
 {

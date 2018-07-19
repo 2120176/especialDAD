@@ -161,7 +161,7 @@ export default {
 
     // });
 
-        this.getLoggedUser();
+      //  this.getLoggedUser();
     
     
   }

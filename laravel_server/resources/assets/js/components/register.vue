@@ -62,20 +62,34 @@ export default {
   },
   
   methods: {
-    register: function() {
-    	axios.post('/api/register', this.user)
-           .then(response => {
-                  // enviar email de autenticação
-                  console.log(response);
-                  this.$router.push('/');
 
-    	}).catch(registerError => {
-        // Something went wrong!
-        //this.registerError = true;
-        console.log('Login Error: ' + registerError);
-      });
-    },
-    getLoggedUser: function () {
+      resetUser() {
+          this.user = {
+              name: null,
+              nickname: null,
+              email: null,
+              password: null,
+              password_confirmation: null,
+          }
+      },
+
+      register() {          //register(user)
+          axios.post('/api/users', this.user)
+              .then(response => {
+                  this.resetUser();
+                  console.log(response);
+                  //let successMessage = response.data.message;
+                  alert('Registered with success -> Please Log in' );
+              })
+              .catch(error => {
+                  console.log('register Error: ' + error);
+                  alert('Erro: Dados não conformes!');
+                  resetUser();
+              })
+      },
+
+
+getLoggedUser: function () {
             this.token = localStorage.getItem('token');
             //console.log("get Logged User");
             axios.get('/api/user', { 

@@ -13,6 +13,7 @@ use App\StoreUserRequest;
 use Hash;
 use App\Mail\MailSender;
 use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\Validator;
 
 class UserControllerAPI extends Controller
 {
@@ -30,7 +31,7 @@ class UserControllerAPI extends Controller
 
     public function store(Request $request)
     {
-        $data = [
+       /* $data = [
             'name' => $request->name,
             'nickname' => $request->nickname,
             'email' => $request->email,
@@ -44,13 +45,63 @@ class UserControllerAPI extends Controller
 
         if (strcmp($user->password, $user->password_confirmation) !== 0) {
             return response()->json(['msg' => 'Wrong passwords NABO!'], 400);
+        }*/
+
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'email' => 'required|email|unique:users,email',
+            'nickname' => 'required',
+            'password' => 'required|confirmed|min:6'
+        ]);
+
+        if (!$validator->fails()) {
+
+            $user = new User();
+            $user->fill($request->all());
+            $user->avatar = "null.png";
+            $user->password = Hash::make($user->password);
+            $user->save();
+            \Mail::to($user)->send(new MailSender('emails.register', $user));
+            return response()->json(['message' => 'registration success'], 200);
+            return response()->json(new UserResource($user), 201);
         }
+        //return response(['data' => $validator->errors()], 434);
+        return response()->json($validator->errors(), 422);
 
 
-        \Mail::to($user)->send(new MailSender('emails.register', $user));        
-        return response()->json(['message' => 'registration success'], 200);
 
         //return response()->json(new UserResource($user), 201);
+
+    }
+
+    public function forgotPassword(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'email' => 'email|required'
+        ]);
+
+        if (!$validator->fails()) {
+
+
+            $user = User::where('email', $request->input('email'))->first();
+
+            if (!$user) {
+                return response(['data' => 'Check if email is correct'], 403);
+            }
+
+            $token = Token::create([
+                'user_id' => $user->id,
+                'token' => uniqid(),
+                'expire_at' => Carbon::now()->addHour(),
+            ]);
+
+
+            Mail::to($user)->send(new ForgotPassword($token, $request));
+
+
+            return response(['msg' => 'Email sent!'], 200);
+        }
+        return response(['data' => $validator->errors()], 433);
     }
 
     public function update(Request $request, $id)
