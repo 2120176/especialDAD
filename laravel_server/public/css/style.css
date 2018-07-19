@@ -1,0 +1,26 @@
+﻿@charset "utf-8";
+/* Custom rules */
+.inline {
+    display: inline-block;
+}
+
+.error {
+	color: red;
+}
+
+
+.board {
+  max-width: 475px;
+  margin: 0 auto;
+  border-style: solid;
+  border-width: 0px 0 0 0px;
+  border-color: black;
+}
+
+.board img {
+    width: 75px;
+    height: 100px;
+    margin: 5px;
+    padding: 0;
+    border-style: none;
+}
