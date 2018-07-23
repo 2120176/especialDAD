@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\VerifyMail;
+use App\VerifyUser;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Support\Jsonable;
 
@@ -50,7 +52,7 @@ class UserControllerAPI extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required',
             'email' => 'required|email|unique:users,email',
-            'nickname' => 'required',
+            'nickname' => 'required|unique:users,email',
             'password' => 'required|confirmed|min:6'
         ]);
 
@@ -59,20 +61,85 @@ class UserControllerAPI extends Controller
             $user = new User();
             $user->fill($request->all());
             $user->avatar = "null.png";
+            $user->verified = 0;
             $user->password = Hash::make($user->password);
             $user->save();
-            \Mail::to($user)->send(new MailSender('emails.register', $user));
+/*
+            $verifyUser = VerifyUser::create([
+                'user_id' => $user->id,
+                'token' => str_random(40)
+            ]);*/
+
+            $verifyUser = new VerifyUser();
+            $verifyUser->user_id = $user->id;
+            $verifyUser->token = str_random(40);
+            $verifyUser->save();
+
+
+
+            \Mail::to($user->email)->send(new VerifyMail($user, $verifyUser->token));
+
+
+//            \Mail::to($user)->send(new MailSender('emails.register', $user));
             return response()->json(['message' => 'registration success'], 200);
             return response()->json(new UserResource($user), 201);
         }
         //return response(['data' => $validator->errors()], 434);
         return response()->json($validator->errors(), 422);
 
-
-
         //return response()->json(new UserResource($user), 201);
 
     }
+
+
+    public function verifyUser(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'token' => 'required',
+        ]);
+
+        if ($request->wantsJson() && !$validator->fails()) {
+            $verifyUser = VerifyUser::where('token', $request->token)->first();
+
+            if (empty($verifyUser)) {
+                return response()->json(['msg' => 'Token inválido.'], 400);
+            }
+
+            $user = User::find($verifyUser->user_id);
+            $user->verified = 1;
+            $user->save();
+
+            $verifyUser->delete();
+
+            return back()->with(['msg' => 'Utilizador activado.']);
+        } else {
+            return response()->json(['msg' => 'Request inválido.'], 400);
+        }
+    }
+
+
+
+
+    /* public function verifyUser($token)
+     {
+         $verifyUser = VerifyUser::where('token', $token)->first();
+         if(isset($verifyUser) ){
+             $user = $verifyUser->user;
+             if(!$user->verified) {
+                 $verifyUser->user->verified = 1;
+                 $verifyUser->user->save();
+                 $status = "Your e-mail is verified. You can now login.";
+
+                 $verifyUser->delete();
+             }else{
+                 return response()->json(['msg' => 'Utilizador activado.']);
+             }
+         }else{
+             return response()->json(['msg' => 'Token inválido.'], 400);
+         }
+     }*/
+
+
 
     public function forgotPassword(Request $request)
     {

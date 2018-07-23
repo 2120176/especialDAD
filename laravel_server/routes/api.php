@@ -26,6 +26,9 @@ Route::delete('users/{id}', 'UserControllerAPI@delete');
 Route::put('registerLink/{user}', 'UserControllerAPI@changeActivation');
 Route::post('updateAvatar', 'UserControllerAPI@updateAvatar');
 
+Route::post('verify', 'UserController@verifyUser');
+
+
 
 // Admin
 Route::put('user/blocked/{id}', 'UserControllerAPI@blockUser');

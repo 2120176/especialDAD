@@ -37,6 +37,7 @@ class UsersTableSeeder extends Seeder
             'password' => $password ?: $password = bcrypt('secret'),
             'nickname' => $nickname,
             'activated' => 1,
+            'verified' => 1,
             'avatar' => 'null.png',
             'admin' => $admin,
             'blocked' => false,

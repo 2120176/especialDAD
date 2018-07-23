@@ -76,10 +76,9 @@ export default {
       register() {          //register(user)
           axios.post('/api/users', this.user)
               .then(response => {
-                  this.resetUser();
                   console.log(response);
                   //let successMessage = response.data.message;
-                  alert('Registered with success -> Please Log in' );
+                  alert('Register pending, please check your e-mail' );
               })
               .catch(error => {
                   console.log('register Error: ' + error);

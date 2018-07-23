@@ -47,4 +47,10 @@ class User extends Authenticatable
         return $this->orWhere('email', $identifier)->orWhere('nickname', $identifier)->first();
     }
 
+    public function verifyUser()
+    {
+        return $this->hasOne('App\VerifyUser');
+    }
+
+
 }

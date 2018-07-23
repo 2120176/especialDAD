@@ -49736,14 +49736,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             };
         },
         register: function register() {
-            var _this = this;
-
             //register(user)
             axios.post('/api/users', this.user).then(function (response) {
-                _this.resetUser();
                 console.log(response);
                 //let successMessage = response.data.message;
-                alert('Registered with success -> Please Log in');
+                alert('Register pending, please check your e-mail');
             }).catch(function (error) {
                 console.log('register Error: ' + error);
                 alert('Erro: Dados não conformes!');
@@ -49753,7 +49750,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
         getLoggedUser: function getLoggedUser() {
-            var _this2 = this;
+            var _this = this;
 
             this.token = localStorage.getItem('token');
             //console.log("get Logged User");
@@ -49761,13 +49758,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 headers: { 'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' + this.token }
             }).then(function (response) {
-                _this2.logged_user = response.data;
+                _this.logged_user = response.data;
                 //console.log (this.logged_user.id);
-                _this2.isUserLogged = true;
-                console.log(_this2.logged_user);
+                _this.isUserLogged = true;
+                console.log(_this.logged_user);
             }).catch(function (error) {
                 // não está autenticado
-                _this2.isUserLogged = false;
+                _this.isUserLogged = false;
             });
         } // end function
     },

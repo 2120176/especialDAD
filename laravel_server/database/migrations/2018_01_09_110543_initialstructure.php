@@ -27,6 +27,7 @@ class InitialStructure extends Migration
             $table->string('reason_reactivated')->nullable();
             $table->integer('total_points')->default(0);
             $table->integer('total_games_played')->default(0);
+            $table->boolean('verified')->default(false);
             $table->timestamps();
         });
 
