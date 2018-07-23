@@ -87,7 +87,7 @@ export default {
               }).then(response => {
                 this.newUser = response.data;
                 // console.log (this.newUser);
-                  if (this.newUser.activated == "1" && this.newUser.blocked != "1") { // conta ativada faz login
+                  if (this.newUser.verified == "1" && this.newUser.blocked != "1") { // conta ativada faz login
                     if (this.newUser.admin == "1") {
                       console.log ("sou admin");
                       

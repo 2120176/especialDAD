@@ -10,7 +10,7 @@ use App\User;
 define('YOUR_SERVER_URL', 'http://especial.dad');
 // Check "oauth_clients" table for next 2 values:
 define('CLIENT_ID', '2');
-define('CLIENT_SECRET','Ymnatu6uquH6HL7EjJpj9vSPwne5lG5C5Mv8lobn');
+define('CLIENT_SECRET','QfuZEGV5Pwrx59pq1rigerkIDGWKpnFrMAegfnTA');
 
 class LoginControllerAPI extends Controller
 {
@@ -20,6 +20,10 @@ class LoginControllerAPI extends Controller
 		$user = User::orWhere('email', $request->email)->orWhere('nickname', $request->email)->first();
         if($user == null){
             return response()->json(['msg'=>'Utilizador/email não existe.'], 400);
+        }
+
+        if($user->verified == 0){
+            return response()->json(['msg'=>'Utilizador não verificado.'], 400);
         }
 
         if($user->blocked == 1) {

@@ -20,14 +20,12 @@ Vue.use(VueRouter);
 Vue.use(VueSocketio, 'http://192.168.10.10:8080');
 
 const user = Vue.component('user', require('./components/user.vue'));
-const singleplayer_game = Vue.component('singlegame', require('./components/singleplayer_tictactoe.vue'));
-const multiplayerGame = Vue.component('multiplayergame', require('./components/multiplayer_tictactoe.vue'));
-const blackjack = Vue.component('blackjack', require('./components/blackjack.vue'));
 const login = Vue.component('login', require('./components/login.vue'));
 const logout = Vue.component('logout', require('./components/logout.vue'));
 const register = Vue.component('register', require('./components/register.vue'));
 const userAccount = Vue.component('userAccount', require('./components/userAccount.vue'));
 const forgot = Vue.component('forgot', require('./components/forgot.vue'));
+const verifyUser = Vue.component('verifyUser', require('./components/verifyUser.vue'));
 
 
 const sueca = Vue.component('sueca', require('./components/sueca.vue'));
@@ -46,12 +44,10 @@ const platformEmailSettings = Vue.component('platformEmailSettings', require('./
 const routes = [
   { path: '/', redirect: '/login' },
   { path: '/users', component: user },
-  { path: '/singletictactoe', component: singleplayer_game },
-  { path: '/multitictactoe', component: multiplayerGame },
-  { path: '/blackjack', component: blackjack },
   { path: '/login', component: login },
   { path: '/logout', component: logout },
   { path: '/register', component: register },
+  { path: '/verifyUser/:token', component: verifyUser, props: true  },
   { path: '/adminLogin', component: adminLogin },
   { path: '/adminMasterPage', component: adminMasterPage },
   { path: '/adminUserDetails/:id', component: adminUserDetails },

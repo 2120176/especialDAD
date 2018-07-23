@@ -25,7 +25,7 @@ class User extends Authenticatable
         'password',
         'reason_blocked',
         'reason_reactivated',
-        'activated',
+        'verified',
         'avatar',
     ];
 

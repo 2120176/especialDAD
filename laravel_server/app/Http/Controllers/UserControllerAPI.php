@@ -109,8 +109,6 @@ class UserControllerAPI extends Controller
             $user->verified = 1;
             $user->save();
 
-            $verifyUser->delete();
-
             return back()->with(['msg' => 'Utilizador activado.']);
         } else {
             return response()->json(['msg' => 'Request inválido.'], 400);

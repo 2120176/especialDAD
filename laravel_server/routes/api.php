@@ -26,7 +26,7 @@ Route::delete('users/{id}', 'UserControllerAPI@delete');
 Route::put('registerLink/{user}', 'UserControllerAPI@changeActivation');
 Route::post('updateAvatar', 'UserControllerAPI@updateAvatar');
 
-Route::post('verify', 'UserController@verifyUser');
+Route::post('verify', 'UserControllerAPI@verifyUser');
 
 
 

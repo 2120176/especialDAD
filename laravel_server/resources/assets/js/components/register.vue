@@ -34,9 +34,7 @@
 
           <div class="btn-group">
             <button class="btn btn-primary" v-on:click.prevent="register">Register</button>
-            <router-link class="btn btn-default" :to="{ path: '/login' }">
-              Login
-            </router-link>
+            <button class="btn btn-danger" v-on:click.prevent="resetUser">Cancel</button>
           </div>
         </form>
       </div>
