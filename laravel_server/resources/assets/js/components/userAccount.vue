@@ -9,13 +9,13 @@
 		
 
 	    <div class="form-group">
-	        <label for="inputName">Name: {{logged_user.name}} </label>
+	        <label for="inputName">Name: </label> {{logged_user.name}}
 	    </div>
 	    <div class="form-group">
-	        <label for="inputEmail">Email: {{logged_user.email}}</label>
+	        <label for="inputEmail">Email: </label> {{logged_user.email}}
 	    </div>
 	    <div class="form-group">
-	        <label for="inputNickname">Nickname: {{logged_user.nickname}}</label>
+	        <label for="inputNickname">Nickname: </label> {{logged_user.nickname}}
 	    </div>
 
 
@@ -24,93 +24,104 @@
 	        <a class="btn btn-default" v-on:click.prevent="saveUser()">Save</a>
 	        <a class="btn btn-default" v-on:click.prevent="cancelEdit()">Cancel</a>
 	        -->
-	        <a class="btn btn-default" v-on:click.prevent="editUser()">Edit</a>
+	        <a class="btn btn-info" v-on:click.prevent="editUser()">Edit my profile</a>
+			<a class="btn btn-default" v-on:click.prevent="back()">Back</a>
 
 	    </div>
 
-	    <form v-show="editingUser" class="jumbotron" >
-		    <h2>Edit User</h2>
-		    <div class="form-group">
-		        <label for="inputName">Name</label>
-		        <input
-		            type="text" class="form-control" v-model="logged_user.name"
-		            name="name" id="inputName"
-		            placeholder="Fullname"/>
-		    </div>
-		    <div class="form-group">
-		        <label for="inputEmail">Email</label>
-		        <input
-		            type="email" class="form-control" v-model="logged_user.email"
-		            name="email" id="inputEmail"
-		            placeholder="Email address"/>
-		    </div>
-		    
-		    <div class="form-group">
-		        <label for="inputNickname">Nickname</label>
-		        <input
-		            type="text" class="form-control" v-model="logged_user.nickname"
-		            name="nickname" id="inputNickname"
-		            placeholder="Nickname"/>
-		    </div>
+		<div class="jumbotron" v-show="editingUser">
+			<div>
+				<form>
+					<h2>Edit User info</h2>
+					<div class="form-group">
+						<label for="inputName">Name</label>
+						<input
+								type="text" class="form-control" v-model="logged_user.name"
+								name="name" id="inputName"
+								placeholder="Fullname"/>
+					</div>
+					<div class="form-group">
+						<label for="inputEmail">Email</label>
+						<input
+								type="email" class="form-control" v-model="logged_user.email"
+								name="email" id="inputEmail"
+								placeholder="Email address"/>
+					</div>
 
+					<div class="form-group">
+						<label for="inputNickname">Nickname</label>
+						<input
+								type="text" class="form-control" v-model="logged_user.nickname"
+								name="nickname" id="inputNickname"
+								placeholder="Nickname"/>
+					</div>
 
-			<div class="form-group">
-		        <a class="btn btn-primary" v-on:click.prevent="saveUser()">Save</a>
-		        <a class="btn btn-default" v-on:click.prevent="cancelEdit()">Cancel</a>
-		    </div>
+					<div class="form-group">
+						<a class="btn btn-primary" v-on:click.prevent="saveUser()">Save</a>
+						<a class="btn btn-default" v-on:click.prevent="cancelEdit()">Cancel</a>
+					</div>
 
-		</form>
-
-		<form>
-			<div class="col-md-2">
-				<input type="file" v-on:change="onFileChange" class="form-control">
+				</form>
 			</div>
-			<div class="col-md-2">
-				<img :src="avatar" class="img-responsive">
+			<hr>
+			<label>Avatar</label>
+			<div>
+				<form>
+
+					<div class="col-md-4">
+						<input type="file" v-on:change="onFileChange" class="form-control">
+					</div>
+					<div class="col-md-4">
+						<img :src="avatar" class="img-responsive">
+					</div>
+					<div class="col-md-4">
+						<button class="btn btn-success btn-block" v-model="avatar" v-on:click.prevent="uploadAvatar(avatar)">
+							Save Image
+						</button>
+					</div>
+				</form>
 			</div>
-			<div class="col-md-2">
-				<button class="btn btn-success btn-block" v-model="avatar" v-on:click.prevent="uploadAvatar(avatar)">
-					Save Imagem
-				</button>
+
+			<hr>
+
+			<div>
+				<form>
+					<div class="form-group">
+						<label for="inputPassword">Old Password</label>
+						<input
+								type="password" class="form-control" v-model="old_password"
+								name="password" id="inputOldPassword"
+								placeholder="Password"/>
+					</div>
+
+
+					<div class="form-group">
+						<label for="inputPassword">New Password</label>
+						<input
+								type="password" class="form-control" v-model="password"
+								name="password" id="inputNewPassword"
+								placeholder="Password"/>
+					</div>
+
+
+					<div class="form-group">
+						<label for="inputPassword">Confirm Password</label>
+						<input
+								type="password" class="form-control" v-model="confirm_password"
+								name="password" id="inputConfirmPassword"
+								placeholder="Password"/>
+					</div>
+
+
+					<div class="form-group">
+						<a class="btn btn-primary" v-on:click.prevent="saveUserPW()">Save</a>
+						<a class="btn btn-default" v-on:click.prevent="cancelEdit()">Cancel</a>
+					</div>
+				</form>
 			</div>
+		</div>
 
 
-	    </form>
-
-
-		<form v-show="editingUser" >
-			<div class="form-group">
-		        <label for="inputPassword">Old Password</label>
-		        <input
-		            type="password" class="form-control" v-model="old_password"
-		            name="password" id="inputOldPassword"
-		            placeholder="Password"/>
-		    </div>
-
-
-			<div class="form-group">
-		        <label for="inputPassword">New Password</label>
-		        <input
-		            type="password" class="form-control" v-model="password"
-		            name="password" id="inputNewPassword"
-		            placeholder="Password"/>
-		    </div>
-
-
-			<div class="form-group">
-		        <label for="inputPassword">Confirm Password</label>
-		        <input
-		            type="password" class="form-control" v-model="confirm_password"
-		            name="password" id="inputConfirmPassword"
-		            placeholder="Password"/>
-		    </div>
-
-
-		    <div class="form-group">
-		        <a class="btn btn-primary" v-on:click.prevent="saveUserPW()">Save</a>
-		        <a class="btn btn-default" v-on:click.prevent="cancelEdit()">Cancel</a>
-		    </div>
-		</form>
 	</div>
 </template>
 
@@ -156,8 +167,6 @@
 						this.pieceImageURL(this.logged_user.id);
 					});
             },
-
-
 
 			pieceImageURL (path) {
                 var imgSrc = String(path);
@@ -294,6 +303,10 @@
                         console.log(error);
                       });
             }, // end function
+
+			back: function () {
+                this.$router.go(-1);
+            }
 		},
 		mounted() {
 			this.getLoggedUser();
@@ -305,5 +318,7 @@
 </script>
 
 <style scoped>
-
+	.btn-danger{
+		float: right;
+	}
 </style>

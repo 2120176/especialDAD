@@ -238,7 +238,7 @@ class UserControllerAPI extends Controller
     {
         $user = User::findOrFail($id);
         if ($user != null) {
-            if(Hash::check($request->password, $user->password))
+            if(Hash::check($request->old_password, $user->password))
             {
                 $user->password = Hash::make($request->password); 
                 $user->save();         

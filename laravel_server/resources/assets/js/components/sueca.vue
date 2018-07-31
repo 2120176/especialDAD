@@ -1,6 +1,17 @@
 <template>
 	<div>
         <div>
+            <div class="btn-group">
+                <button v-on:click="logout()" class="btn btn-primary">Logout</button>
+                <router-link class="btn btn-default" :to="{ path: '/userAccount' }">
+                    Account Settings
+                </router-link>
+                <router-link class="btn btn-default" :to="{ path: '/playerStatistics' }">
+                    Statistics
+                </router-link>
+            </div>
+
+
             <h3 class="text-center">{{ title }}</h3>
             <br>
             <h2>Current Player : {{ currentPlayer }}</h2>
