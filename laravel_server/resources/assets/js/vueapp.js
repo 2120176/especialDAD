@@ -66,10 +66,15 @@ const router = new VueRouter({
   routes:routes
 });
 
+
 const app = new Vue({
   router,
   data:{
-    player1:undefined,
-    player2: undefined,
+      player1: undefined,
+      player2: undefined,
+      player3: undefined,
+      player4: undefined
+
+
   }
 }).$mount('#app');

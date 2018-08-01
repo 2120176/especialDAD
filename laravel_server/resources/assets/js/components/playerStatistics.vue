@@ -6,7 +6,7 @@
         <h1>Games Finished</h1>
         <h2>Total Players: {{ totalPlayers }}</h2>
         <h2>Total Games Played: {{ total_games_played }}</h2>
-        <a class="btn btn-xs btn-warning" v-on:click.prevent="home()"> Home</a>
+        <a class="btn btn-xs btn-warning" v-on:click.prevent="back()"> Go Back</a>
 
 
         <table class="table table-striped">
@@ -137,8 +137,8 @@
                 }         
             }, // end function
 
-            home: function () {
-                this.$router.push('/');
+            back: function () {
+                this.$router.go(-1);
             }, // end function
 
             orderByPoints: function () {

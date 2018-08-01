@@ -13,15 +13,15 @@ class GameList {
     	return game;
     }
 
-    createGame(playerName, socketID) {
+    createGame(playerID, playerName, socketID) {
     	this.contadorID = this.contadorID+1;
-    	var game = new BlackJackGame(this.contadorID, playerName);
-    	game.player1SocketID = socketID;
+    	var game = new BlackJackGame(this.contadorID, playerID, playerName, socketID);
+    	//game.player1SocketID = socketID;
     	this.games.set(game.gameID, game);
     	return game;
     }
 
-    joinGame(gameID, playerName, socketID) {
+    joinGame(gameID, playerID, playerName, socketID) {
     	let game = this.gameByID(gameID);
     	if (game===null) {
     		return null;
@@ -34,7 +34,7 @@ class GameList {
 
 			if (game.player1SocketID != socketID) {
 				if (game.player2SocketID == null) {
-					game.join(playerName);
+					game.join(playerID, playerName, socketID);
 					game.player2SocketID = socketID;
 					console.log('player2 joined', game.player2SocketID);
 					console.log("___________________________________");
@@ -45,7 +45,7 @@ class GameList {
 					return game;
 				}
 				if (game.player3SocketID == null) {
-					game.join(playerName);
+                    game.join(playerID, playerName, socketID);
 					game.player3SocketID = socketID;
 					console.log('player3 joined', game.player3SocketID);
 					console.log("___________________________________");
@@ -54,7 +54,7 @@ class GameList {
 					return game;
 				}
 				if (game.player4SocketID == null) {
-					game.join(playerName);
+                    game.join(playerID, playerName, socketID);
 					game.player4SocketID = socketID;
 					console.log('player4 joined', game.player4SocketID);
 					console.log("___________________________________");

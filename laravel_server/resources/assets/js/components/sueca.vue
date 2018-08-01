@@ -15,8 +15,8 @@
             <h3 class="text-center">{{ title }}</h3>
             <br>
             <h2>Current Player : {{ currentPlayer }}</h2>
-            <p>Set current player name <input v-model.trim="currentPlayer"></p>
-            <p><em>Player name replaces authentication! Use different names on different browsers, and don't change it frequently.</em></p>
+            <!--<p>Set current player name <input v-model.trim="currentPlayer"></p>
+            <p><em>Player name replaces authentication! Use different names on different browsers, and don't change it frequently.</em></p>-->
             <hr>
             <h3 class="text-center">Lobby</h3>
             <p><button class="btn btn-xs btn-success" v-on:click.prevent="createGame">Create a New Game</button></p>
@@ -38,10 +38,12 @@
         data: function(){
 			return {
                 title: 'Sueca',
-                currentPlayer: 'Player X',
+                currentPlayer: '',
                 lobbyGames: [],
                 activeGames: [],
                 socketId: "",
+                playerId: "",
+                gameID: ""
             }
         },
         sockets:{
@@ -105,7 +107,7 @@
                     return;
                 }
                 else {
-                    this.$socket.emit('create_game', { playerName: this.currentPlayer });
+                    this.$socket.emit('create_game', { gameID: this.gameID });
                 }
             },
             join(game){
@@ -114,21 +116,43 @@
                     return;
                 }
 								console.log("SUECA VUE GAME ID: " + game.gameID);
-                this.$socket.emit('join_game', {gameID: game.gameID, playerName: this.currentPlayer });
+                this.$socket.emit('join_game', {gameID: game.gameID, playerID: this.playerID, playerName: this.currentPlayer });
             },
             play(game, index){
                 this.$socket.emit('play', {gameID: game.gameID, index: index });
             },
             close(game){
                 this.$socket.emit('remove_game', {gameID: game.gameID });
-            }
+            },
+            getLoggedUser: function () {
+                let token = localStorage.getItem('token');
+                //console.log("get Logged User");
+                axios.get('/api/user', {
+                    headers: {'Content-Type' : 'application/json',
+                        'Authorization' : 'Bearer ' + token }
+                }).then(response => {
+                    this.currentPlayer = response.data.name;
+                    this.playerID = response.data.id;
+                    this.nickname
+                    //console.log (this.logged_user.id);
+                    this.isUserLogged = true;
+                    console.log(this.currentPlayer);
+
+                }).catch(error => {
+                    // não está autenticado
+                    this.isUserLogged = false;
+                    console.log(error);
+                });
+            }, // end function
         },
         components: {
             'lobby': Lobby,
             'game': GameSueca,
         },
         mounted() {
+            this.getLoggedUser();
             this.loadLobby();
+
         }
 
     }

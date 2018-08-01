@@ -1,16 +1,16 @@
 /*jshint esversion: 6 */
 
 class BlackJackGame {
-    constructor(ID, owner) {
+    constructor(ID, playerID, playerName, socketID) {
         this.numPlayers = 0;
         this.winner = 0;
         this.winnerP = 0;
         this.arrayBaralho = [];
         this.arrayPontuacao = [];
         this.arraySockets = [];
-        this.gameOwner = owner.id;
+        //this.gameOwner = owner.id;
         this.arrayPlayers = []; // array populado quando feito o join
-        this.join(owner.id);
+        this.join(playerID);
         this.gameEnded = false;
         this.gameStarted = false;
         this.gameID = ID;
@@ -30,6 +30,17 @@ class BlackJackGame {
         this.firstPlayer; // variavle estatica
         this.firtCardPlayed;
         this.roundNumber = 0;
+
+        let player = {
+            playerID: playerID,
+            socketID: socketID,
+            name: playerName,
+            score: 0,
+            team: 1,
+            hand: []
+        }
+        this.numPlayers = this.arrayPlayers.push(player);
+
     }
 
     startGame() {
@@ -170,15 +181,26 @@ class BlackJackGame {
 
     }
 
-    join(playerID){
-        if (this.hasPlayer(playerID)) {
-            return;
+    join(playerID, playerName, socketID){
+
+        if (this.numPlayers < 4) {
+            let teamNumber = undefined;
+            if (this.numPlayers % 2 != 0) {
+                teamNumber = 1;
+            } else {
+                teamNumber = 2;
+            }
+            let player = {
+                playerID: playerID,
+                socketID: socketID,
+                name: playerName,
+                score: 0,
+                team: teamNumber,
+                hand: []
+            }
+            this.numPlayers = this.arrayPlayers.push(player);
         }
-        if (this.numPlayers >= 4) {
-            return;
-        }
-        this.numPlayers++;
-        this.arrayPlayers.push(playerID);
+
     }
 
     hasPlayer(playerID){

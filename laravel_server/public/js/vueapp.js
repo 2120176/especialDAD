@@ -1542,7 +1542,10 @@ var app = new Vue({
   router: router,
   data: {
     player1: undefined,
-    player2: undefined
+    player2: undefined,
+    player3: undefined,
+    player4: undefined
+
   }
 }).$mount('#app');
 
@@ -48516,7 +48519,7 @@ var render = function() {
           _c(
             "a",
             {
-              staticClass: "btn btn-default",
+              staticClass: "btn btn-warning",
               on: {
                 click: function($event) {
                   $event.preventDefault()
@@ -49279,7 +49282,7 @@ exports = module.exports = __webpack_require__(2)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -49334,10 +49337,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     data: function data() {
         return {
             title: 'Sueca',
-            currentPlayer: 'Player X',
+            currentPlayer: '',
             lobbyGames: [],
             activeGames: [],
-            socketId: ""
+            socketId: "",
+            playerId: "",
+            gameID: ""
         };
     },
     sockets: {
@@ -49442,7 +49447,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 alert('Current Player is Empty - Cannot Create a Game');
                 return;
             } else {
-                this.$socket.emit('create_game', { playerName: this.currentPlayer });
+                this.$socket.emit('create_game', { gameID: this.gameID });
             }
         },
         join: function join(game) {
@@ -49451,20 +49456,43 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 return;
             }
             console.log("SUECA VUE GAME ID: " + game.gameID);
-            this.$socket.emit('join_game', { gameID: game.gameID, playerName: this.currentPlayer });
+            this.$socket.emit('join_game', { gameID: game.gameID, playerID: this.playerID, playerName: this.currentPlayer });
         },
         play: function play(game, index) {
             this.$socket.emit('play', { gameID: game.gameID, index: index });
         },
         close: function close(game) {
             this.$socket.emit('remove_game', { gameID: game.gameID });
-        }
+        },
+
+        getLoggedUser: function getLoggedUser() {
+            var _this = this;
+
+            var token = localStorage.getItem('token');
+            //console.log("get Logged User");
+            axios.get('/api/user', {
+                headers: { 'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + token }
+            }).then(function (response) {
+                _this.currentPlayer = response.data.name;
+                _this.playerID = response.data.id;
+                _this.nickname;
+                //console.log (this.logged_user.id);
+                _this.isUserLogged = true;
+                console.log(_this.currentPlayer);
+            }).catch(function (error) {
+                // não está autenticado
+                _this.isUserLogged = false;
+                console.log(error);
+            });
+        } // end function
     },
     components: {
         'lobby': __WEBPACK_IMPORTED_MODULE_0__lobby_vue___default.a,
         'game': __WEBPACK_IMPORTED_MODULE_1__game_sueca_vue___default.a
     },
     mounted: function mounted() {
+        this.getLoggedUser();
         this.loadLobby();
     }
 });
@@ -49555,7 +49583,7 @@ exports = module.exports = __webpack_require__(2)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -49588,18 +49616,74 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 // Component code (not registered)
 module.exports = {
-	props: ['games'],
-	methods: {
-		join: function join(game) {
-			this.$emit('join-click', game);
-		},
-		gameIsFull: function gameIsFull(game) {
-			return game.numPlayers >= 4;
-		}
-	}
+    props: ['games'],
+    data: function data() {
+        return {
+            playerName: ""
+        };
+    },
+    methods: {
+        join: function join(game) {
+            this.$emit('join-click', game);
+        },
+        gameIsFull: function gameIsFull(game) {
+            return game.numPlayers >= 4;
+        },
+
+        getLoggedUser: function getLoggedUser() {
+            var _this = this;
+
+            var token = localStorage.getItem('token');
+            //console.log("get Logged User");
+            axios.get('/api/user', {
+                headers: { 'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + token }
+            }).then(function (response) {
+                _this.playerName = response.data.name;
+                console.log(_this.currentPlayer);
+            }).catch(function (error) {
+                // não está autenticado
+                _this.isUserLogged = false;
+                console.log(error);
+            });
+        }
+    },
+    mounted: function mounted() {
+        this.getLoggedUser();
+    }
 };
 
 /***/ }),
@@ -49619,29 +49703,49 @@ var render = function() {
         return _c("tr", { key: game.gameID }, [
           _c("td", [_vm._v(_vm._s(game.gameID))]),
           _vm._v(" "),
-          _c("td", [_vm._v(_vm._s(game.player1))]),
+          game.arrayPlayers[0]
+            ? _c("td", [_vm._v(" " + _vm._s(game.arrayPlayers[0].name))])
+            : _vm._e(),
           _vm._v(" "),
-          _vm.gameIsFull(game)
-            ? _c("td", [
-                _c("a", { staticClass: "btn btn-xs btn-danger" }, [
-                  _vm._v("Game is Full")
-                ])
-              ])
-            : _c("td", [
-                _c(
-                  "a",
-                  {
-                    staticClass: "btn btn-xs btn-danger",
-                    on: {
-                      click: function($event) {
-                        $event.preventDefault()
-                        _vm.join(game)
-                      }
-                    }
-                  },
-                  [_vm._v("Join")]
-                )
-              ])
+          game.arrayPlayers[1]
+            ? _c("td", [_vm._v(" " + _vm._s(game.arrayPlayers[1].name))])
+            : _vm._e(),
+          _vm._v(" "),
+          !game.arrayPlayers[1]
+            ? _c("td", [_vm._v(" Waiting for player 2")])
+            : _vm._e(),
+          _vm._v(" "),
+          game.arrayPlayers[2]
+            ? _c("td", [_vm._v(" " + _vm._s(game.arrayPlayers[2].name))])
+            : _vm._e(),
+          _vm._v(" "),
+          !game.arrayPlayers[2]
+            ? _c("td", [_vm._v(" Waiting for player 3")])
+            : _vm._e(),
+          _vm._v(" "),
+          game.arrayPlayers[3]
+            ? _c("td", [_vm._v(" " + _vm._s(game.arrayPlayers[3].name))])
+            : _vm._e(),
+          _vm._v(" "),
+          !game.arrayPlayers[3]
+            ? _c("td", [_vm._v(" Waiting for player 4")])
+            : _vm._e(),
+          _vm._v(" "),
+          _c("td", [
+            _c(
+              "a",
+              {
+                staticClass: "btn btn-xs btn-primary",
+                on: {
+                  click: function($event) {
+                    $event.preventDefault()
+                    _vm.join(game)
+                  }
+                }
+              },
+              [_vm._v("Join")]
+            )
+          ])
         ])
       })
     )
@@ -49657,6 +49761,12 @@ var staticRenderFns = [
         _c("th", [_vm._v("ID")]),
         _vm._v(" "),
         _c("th", [_vm._v("Player 1")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Player 2")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Player 3")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Player 4")]),
         _vm._v(" "),
         _c("th", [_vm._v("Actions")])
       ])
@@ -50171,35 +50281,6 @@ var render = function() {
         _vm._v(" "),
         _c("h2", [_vm._v("Current Player : " + _vm._s(_vm.currentPlayer))]),
         _vm._v(" "),
-        _c("p", [
-          _vm._v("Set current player name "),
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model.trim",
-                value: _vm.currentPlayer,
-                expression: "currentPlayer",
-                modifiers: { trim: true }
-              }
-            ],
-            domProps: { value: _vm.currentPlayer },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.currentPlayer = $event.target.value.trim()
-              },
-              blur: function($event) {
-                _vm.$forceUpdate()
-              }
-            }
-          })
-        ]),
-        _vm._v(" "),
-        _vm._m(0),
-        _vm._v(" "),
         _c("hr"),
         _vm._v(" "),
         _c("h3", { staticClass: "text-center" }, [_vm._v("Lobby")]),
@@ -50252,20 +50333,7 @@ var render = function() {
     )
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("p", [
-      _c("em", [
-        _vm._v(
-          "Player name replaces authentication! Use different names on different browsers, and don't change it frequently."
-        )
-      ])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
@@ -52268,8 +52336,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
         }, // end function
 
-        home: function home() {
-            this.$router.push('/');
+        back: function back() {
+            this.$router.go(-1);
         }, // end function
 
         orderByPoints: function orderByPoints() {
@@ -52371,11 +52439,11 @@ var render = function() {
         on: {
           click: function($event) {
             $event.preventDefault()
-            _vm.home()
+            _vm.back()
           }
         }
       },
-      [_vm._v(" Home")]
+      [_vm._v(" Go Back")]
     ),
     _vm._v(" "),
     _c("table", { staticClass: "table table-striped" }, [

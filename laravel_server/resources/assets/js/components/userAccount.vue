@@ -25,7 +25,7 @@
 	        <a class="btn btn-default" v-on:click.prevent="cancelEdit()">Cancel</a>
 	        -->
 	        <a class="btn btn-info" v-on:click.prevent="editUser()">Edit my profile</a>
-			<a class="btn btn-default" v-on:click.prevent="back()">Back</a>
+			<a class="btn btn-warning" v-on:click.prevent="back()">Back</a>
 
 	    </div>
 
