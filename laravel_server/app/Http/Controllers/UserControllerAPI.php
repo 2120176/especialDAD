@@ -234,7 +234,7 @@ class UserControllerAPI extends Controller
         return response()->json($totalEmail == 0);
     }
 
-    public function resetPass(Request $request, $id)
+   /* public function resetPass(Request $request, $id)
     {
         $user = User::findOrFail($id);
         if ($user != null) {
@@ -251,7 +251,34 @@ class UserControllerAPI extends Controller
         
         return response()->json(['message' => 'Not allowed'], 401);
 
+    }*/
+
+    public function changePassword(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'currentPassword' => 'required',
+            'newPassword' => 'required|min:3'
+        ]);
+
+        if (!$validator->fails()) {
+
+            $user = User::where('id', $request->user_id)->first();
+
+
+            if (!Hash::check($request->input('currentPassword'), $user->password)) {
+                return response()->json(['msg' => 'Wrong password!'], 400);
+            }
+
+            $user->password = Hash::make($request->input('newPassword'));
+            $user->touch();
+
+            return response()->json(['msg' => 'Password successfully changed!'], 200);
+
+        } else {
+            return response()->json(['msg' => 'Invalid request!'], 400);
+        }
     }
+
 
     public function getAdmin(Request $request)
     {
@@ -263,14 +290,14 @@ class UserControllerAPI extends Controller
         
     }
 
-    public function sendMail(Request $request) {
+    /*public function sendMail(Request $request) {
         $admin = User::where('email', $request->email)->first();
         if ($admin != null && $admin->admin == 1) {
             \Mail::to($admin)->send(new MailSender('emails.adminReset', $admin));
             return response()->json(['admin' => '1'], 200);
         }
         return response()->json(['admin' => '0'], 401);
-    }
+    }*/
 
 
     public function resetByEmail()
@@ -314,7 +341,74 @@ class UserControllerAPI extends Controller
             return response()->json(['msg' => 'Avatar changed!'],200);
 
     }
-    
+
+    public function updateEmail(Request $request)
+    {
+        //return response()->json($request->user_id,200);
+
+        $validator = Validator::make($request->all(), [
+            'email' => 'email|required'
+        ]);
+
+        if (!$validator->fails()) {
+            $verifyEmail = User::where('email', $request->input('email'))->count();
+
+            if ($verifyEmail > 0) {
+                return response()->json(['msg' => 'Email already being used!'], 400);
+            }
+
+            $user = User::where('id', $request->user_id)->first();
+
+            $user->email = $request->input('email');
+            $user->touch();
+            return response()->json(['msg' => 'Email changed!'], 200);
+        } else {
+            return response()->json(['msg' => 'Invalid request!'], 400);
+        }
+    }
+
+    public function changeUserNickname(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'nickname' => 'required'
+        ]);
+
+        if (!$validator->fails()) {
+
+            $verifyNickname = User::where('nickname', $request->input('nickname'))->count();
+
+            if ($verifyNickname > 0) {
+                return response()->json(['msg' => 'Nickname already being used!'], 400);
+            }
+
+            $user = User::where('id', $request->user_id)->first();
+            $user->nickname = $request->input('nickname');
+            $user->touch();
+            return response()->json(['msg' => 'Nickname changed!'], 200);
+        } else {
+            return response()->json(['msg' => 'Invalid request!'], 400);
+        }
+    }
+
+    public function changeUserName(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required'
+        ]);
+
+        if (!$validator->fails()) {
+
+            $user = User::where('id', $request->user_id)->first();
+
+            $user->name = $request->input('name');
+            $user->touch();
+            return response()->json(['msg' => 'Name changed!'], 200);
+        } else {
+            return response()->json(['msg' => 'Invalid request!'], 400);
+        }
+
+    }
+
 
     public function getDefesa () {
         $blockeds = User::where('total_games_played','<>' , 0)->count();
