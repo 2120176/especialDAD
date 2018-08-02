@@ -20,10 +20,6 @@
 
 
 	    <div class="form-group">
-	    <!--
-	        <a class="btn btn-default" v-on:click.prevent="saveUser()">Save</a>
-	        <a class="btn btn-default" v-on:click.prevent="cancelEdit()">Cancel</a>
-	        -->
 	        <a class="btn btn-info" v-on:click.prevent="editUser()">Edit my profile</a>
 			<a class="btn btn-warning" v-on:click.prevent="back()">Back</a>
 
@@ -309,11 +305,11 @@
             }
 		},
 		mounted() {
-			this.getLoggedUser();
-			if (this.logged_user.admin) {
-				this.$router.push('/adminEdit');
-			}
-		}
+            this.getLoggedUser();
+            if (this.logged_user.admin) {
+                this.$router.push('/adminEdit');
+            }
+        }
 	}
 </script>
 

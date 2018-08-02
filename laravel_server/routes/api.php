@@ -29,14 +29,21 @@ Route::post('updateAvatar', 'UserControllerAPI@updateAvatar');
 Route::post('verify', 'UserControllerAPI@verifyUser');
 
 
+Route::post('changeUserName','UserControllerAPI@changeUserName');
+Route::post('changeUserNickname','UserControllerAPI@changeUserNickname');
+
+
 
 // Admin
 Route::put('user/blocked/{id}', 'UserControllerAPI@blockUser');
 Route::put('user/unblocked/{id}', 'UserControllerAPI@unblockUser');
 Route::put('admin/resetPassAdmin/{id}', 'UserControllerAPI@resetPass');
+Route::post('changePassword','UserControllerAPI@changePassword');
 Route::post('adminLogin', 'LoginControllerAPI@adminlogin');
 Route::get('adminEmail/{email}', 'UserControllerAPI@sendMail');
 Route::put('admin/reset', 'UserControllerAPI@resetByEmail');
+Route::post('changeEmail','UserControllerAPI@updateEmail');
+
 
 // Platform
 Route::get('getPlatformEmailSettings', 'ConfigControllerAPI@getPlatformEmailSettings');

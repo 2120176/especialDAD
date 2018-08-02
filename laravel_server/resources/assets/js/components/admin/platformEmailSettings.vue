@@ -57,8 +57,9 @@
 
                     <div class="btn-group pull-right">
                         <button type="button" class="btn btn-primary" v-on:click="cancel">Cancel</button>
-                        <button type="submit" class="btn btn-success pull-right">Save</button>
+                        <button type="submit" class="btn btn-success">Save</button>
                     </div>
+
                 </form>
             </div>
         </div>
@@ -119,7 +120,6 @@
                 axios.get('api/getPlatformEmailSettings')
                     .then((response) => {
                         this.settings = response.data.data;
-
                 })
             }
 

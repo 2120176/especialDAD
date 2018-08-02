@@ -3,7 +3,7 @@
         <div>
             <div class="btn-group">
                 <button v-on:click="logout()" class="btn btn-primary">Logout</button>
-                <router-link class="btn btn-default" :to="{ path: '/userAccount' }">
+                <router-link class="btn btn-default" :to="{ path: '/accountSettings' }">
                     Account Settings
                 </router-link>
                 <router-link class="btn btn-default" :to="{ path: '/playerStatistics' }">

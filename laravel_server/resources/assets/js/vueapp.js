@@ -30,35 +30,46 @@ const verifyUser = Vue.component('verifyUser', require('./components/verifyUser.
 
 const sueca = Vue.component('sueca', require('./components/sueca.vue'));
 
-
 const adminStatistics = Vue.component('statistics', require('./components/statistics.vue'));
 const adminLogin = Vue.component('adminLogin', require('./components/adminLogin.vue'));
-const adminMasterPage = Vue.component('adminMasterPage', require('./components/adminMasterPage.vue'));
+const adminMasterPage = Vue.component('adminMasterPage', require('./components/admin/adminMasterPage.vue'));
 const adminUserDetails = Vue.component('adminUserDetails', require('./components/adminUserDetails.vue'));
 const adminPassword = Vue.component('resetPWAdmin', require('./components/resetPWAdmin.vue'));
 const playerStatistics = Vue.component('playerStatistics', require('./components/playerStatistics.vue'));
 const decksManagement = Vue.component('decksManagement', require('./components/decksManagement.vue'));
 
-const platformEmailSettings = Vue.component('platformEmailSettings', require('./components/platformEmailSettings.vue'));
+//gestao user
+const accountSettings = Vue.component('accountSettings', require('./components/user/accountSettings.vue'));
+const changeUserInfo = Vue.component('changeUserInfo', require('./components/user/changeUserInfo.vue'));
+const changeUserPassword = Vue.component('changeUserPassword', require('./components/user/changeUserPassword.vue'));
+const deleteUserAccount = Vue.component('deleteUserAccount', require('./components/user/deleteUserAccount.vue'));
+const changeAvatar = Vue.component('changeAvatar', require('./components/user/changeAvatar.vue'));
+
+//gestao admin
+const adminSettings = Vue.component('adminSettings', require('./components/admin/adminSettings.vue'));
+const changeAdminEmail = Vue.component('changeAdminEmail', require('./components/admin/changeAdminEmail.vue'));
+const changeAdminPassword = Vue.component('changeAdminPassword', require('./components/admin/changeAdminPassword.vue'));
+const platformEmailSettings = Vue.component('platformEmailSettings', require('./components/admin/platformEmailSettings.vue'));
 
 const routes = [
-  { path: '/', redirect: '/login' },
-  { path: '/users', component: user },
-  { path: '/login', component: login },
-  { path: '/logout', component: logout },
-  { path: '/register', component: register },
-  { path: '/verifyUser/:token', component: verifyUser, props: true  },
-  { path: '/adminLogin', component: adminLogin },
-  { path: '/adminMasterPage', component: adminMasterPage },
-  { path: '/adminUserDetails/:id', component: adminUserDetails },
-  { path: '/adminPassword', component: adminPassword },
-  { path: '/playerStatistics', component: playerStatistics },
-  { path: '/adminStatistics', component: adminStatistics },
-  { path: '/userAccount', component: userAccount },
-  { path: '/forgot', component: forgot },
-  { path: '/decksManagement', component: decksManagement },
-  { path: '/sueca', component: sueca },
-  { path: '/platformEmailSettings', component: platformEmailSettings },
+    {path: '/', redirect: '/login'},
+    {path: '/users', component: user},
+    {path: '/login', component: login},
+    {path: '/logout', component: logout},
+    {path: '/register', component: register},
+    {path: '/verifyUser/:token', component: verifyUser, props: true},
+    {path: '/adminLogin', component: adminLogin},
+    {path: '/adminMasterPage', component: adminMasterPage},
+    {path: '/adminUserDetails/:id', component: adminUserDetails},
+    {path: '/adminPassword', component: adminPassword},
+    {path: '/playerStatistics', component: playerStatistics},
+    {path: '/adminStatistics', component: adminStatistics},
+    {path: '/userAccount', component: userAccount},
+    {path: '/forgot', component: forgot},
+    {path: '/decksManagement', component: decksManagement},
+    {path: '/sueca', component: sueca},
+    {path: '/adminSettings', component: adminSettings},
+    {path: '/accountSettings', component: accountSettings}
 
 ];
 

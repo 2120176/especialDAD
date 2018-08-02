@@ -18,8 +18,8 @@
                 <a class="btn btn-primary" @click.prevent="gerirBaralhos">Gerir Baralhos</a>
                 
                 <!-- este router link faz a mesma coisa que um botão que está em cima -->
-                <router-link class="btn btn-primary" :to="{path: '/platformEmailSettings' }">
-				    Platform Email Settings
+                <router-link class="btn btn-primary" :to="{path: '/adminSettings' }">
+                    Settings
 			    </router-link>
 
 
@@ -42,7 +42,7 @@
 
 </template>
 <script type="text/javascript">
-    import AdminUsersList from './adminUsersList.vue';
+    import AdminUsersList from '../adminUsersList.vue';
 
     export default {
         data: function(){
