@@ -35,6 +35,10 @@ Route::post('changeUserName','UserControllerAPI@changeUserName');
 Route::post('changeUserNickname','UserControllerAPI@changeUserNickname');
 
 
+Route::post('changeUserName','UserControllerAPI@changeUserName');
+Route::post('changeUserNickname','UserControllerAPI@changeUserNickname');
+
+
 
 // Admin
 Route::put('user/blocked/{id}', 'UserControllerAPI@blockUser');
