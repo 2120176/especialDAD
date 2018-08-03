@@ -27,6 +27,8 @@ Route::put('registerLink/{user}', 'UserControllerAPI@changeActivation');
 Route::post('updateAvatar', 'UserControllerAPI@updateAvatar');
 
 Route::post('verify', 'UserControllerAPI@verifyUser');
+Route::post('forgot-password','UserControllerAPI@forgotPassword');
+Route::post('reset-password','UserControllerAPI@resetPassword');
 
 
 Route::post('changeUserName','UserControllerAPI@changeUserName');

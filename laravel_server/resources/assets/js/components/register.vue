@@ -32,7 +32,7 @@
             </div>
           </div>
 
-          <div class="btn-group">
+          <div class="btn-group pull-right">
             <button class="btn btn-primary" v-on:click.prevent="register">Register</button>
             <button class="btn btn-danger" v-on:click.prevent="resetUser">Cancel</button>
           </div>
@@ -76,7 +76,7 @@ export default {
               .then(response => {
                   console.log(response);
                   //let successMessage = response.data.message;
-                  alert('Register pending, please check your e-mail' );
+                  alert('Register pending, please check your e-mail');
               })
               .catch(error => {
                   console.log('register Error: ' + error);
@@ -86,23 +86,25 @@ export default {
       },
 
 
-getLoggedUser: function () {
-            this.token = localStorage.getItem('token');
-            //console.log("get Logged User");
-            axios.get('/api/user', { 
-                        headers: {'Content-Type' : 'application/json',
-                        		  'Authorization' : 'Bearer ' + this.token }
-                  }).then(response => {
-                        this.logged_user = response.data;
-                        //console.log (this.logged_user.id);
-                        this.isUserLogged = true;
-                        console.log(this.logged_user);
+      getLoggedUser: function () {
+          this.token = localStorage.getItem('token');
+          //console.log("get Logged User");
+          axios.get('/api/user', {
+              headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': 'Bearer ' + this.token
+              }
+          }).then(response => {
+              this.logged_user = response.data;
+              //console.log (this.logged_user.id);
+              this.isUserLogged = true;
+              console.log(this.logged_user);
 
-                  }).catch(error => {
-                    // não está autenticado
-                    this.isUserLogged = false;
-                  });
-        }, // end function
+          }).catch(error => {
+              // não está autenticado
+              this.isUserLogged = false;
+          });
+      }, // end function
   },
   mounted () {
     

@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\ForgotPassword;
 use App\Mail\VerifyMail;
+use App\Token;
 use App\VerifyUser;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Support\Jsonable;
 
@@ -64,11 +67,7 @@ class UserControllerAPI extends Controller
             $user->verified = 0;
             $user->password = Hash::make($user->password);
             $user->save();
-/*
-            $verifyUser = VerifyUser::create([
-                'user_id' => $user->id,
-                'token' => str_random(40)
-            ]);*/
+
 
             $verifyUser = new VerifyUser();
             $verifyUser->user_id = $user->id;
@@ -116,33 +115,10 @@ class UserControllerAPI extends Controller
     }
 
 
-
-
-    /* public function verifyUser($token)
-     {
-         $verifyUser = VerifyUser::where('token', $token)->first();
-         if(isset($verifyUser) ){
-             $user = $verifyUser->user;
-             if(!$user->verified) {
-                 $verifyUser->user->verified = 1;
-                 $verifyUser->user->save();
-                 $status = "Your e-mail is verified. You can now login.";
-
-                 $verifyUser->delete();
-             }else{
-                 return response()->json(['msg' => 'Utilizador activado.']);
-             }
-         }else{
-             return response()->json(['msg' => 'Token inválido.'], 400);
-         }
-     }*/
-
-
-
     public function forgotPassword(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'email' => 'email|required'
+            'email' => 'required|email'
         ]);
 
         if (!$validator->fails()) {
@@ -154,14 +130,19 @@ class UserControllerAPI extends Controller
                 return response(['data' => 'Check if email is correct'], 403);
             }
 
-            $token = Token::create([
+           /* $token = Token::create([
                 'user_id' => $user->id,
                 'token' => uniqid(),
                 'expire_at' => Carbon::now()->addHour(),
-            ]);
+            ]);*/
 
 
-            Mail::to($user)->send(new ForgotPassword($token, $request));
+            $token = new Token();
+            $token->user_id = $user->id;
+            $token->token = str_random(40);
+            $token->save();
+
+            \Mail::to($user)->send(new ForgotPassword($token, $token->token));
 
 
             return response(['msg' => 'Email sent!'], 200);
@@ -252,6 +233,37 @@ class UserControllerAPI extends Controller
         return response()->json(['message' => 'Not allowed'], 401);
 
     }*/
+    public function resetPassword(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'password' => 'required|min:3',
+            'confirm_password' => 'required|same:password'
+        ]);
+
+        if (!$validator->fails()) {
+
+            $token = $request->input('token');
+            $databaseToken = DB::table('tokens')
+                ->where('token', $token)
+                ->first();
+            if (!$databaseToken) {
+                return response(['data' => 'Bad token'], 403);
+            }
+            //$databaseToken = Token::where('token', $request->token)->first();
+
+
+
+            $user = User::where('id', $databaseToken->user_id)->first();
+            $user->password = Hash::make($request->input('password'));
+            $user->save();
+
+            //DB::table('tokens')->where('id', $databaseToken->id)->delete();
+
+            return response(['data' => 'Password successfully changed!'], 200);
+        }
+        return response(['data' => $validator->errors()], 433);
+
+    }
 
     public function changePassword(Request $request)
     {
