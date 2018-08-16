@@ -11,12 +11,14 @@ use Illuminate\Http\Request;
 use Illuminate\Contracts\Support\Jsonable;
 
 use App\Http\Resources\User as UserResource;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 
 use App\User;
 use App\StoreUserRequest;
 use Hash;
 use App\Mail\MailSender;
+use Illuminate\Support\Facades\Mail;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Validator;
 
@@ -75,8 +77,7 @@ class UserControllerAPI extends Controller
             $verifyUser->save();
 
 
-
-            \Mail::to($user->email)->send(new VerifyMail($user, $verifyUser->token));
+            Mail::to($user->email)->send(new VerifyMail($user, $verifyUser->token));
 
 
 //            \Mail::to($user)->send(new MailSender('emails.register', $user));
@@ -170,7 +171,7 @@ class UserControllerAPI extends Controller
         $user->blocked = 1;
         $user->update($request->all());
         /* Send Email to notify user */
-        \Mail::to($user)->send(new MailSender('emails.block', $user));
+        Mail::to($user)->send(new MailSender('emails.block', $user));
         
         /* End notification */
         return new UserResource($user);
@@ -185,7 +186,7 @@ class UserControllerAPI extends Controller
         $user->update($request->all());
 
         /* Send Email to notify user */
-        \Mail::to($user)->send(new MailSender('emails.unblock', $user));
+        Mail::to($user)->send(new MailSender('emails.unblock', $user));
         
 
         /* End notification */
@@ -198,7 +199,7 @@ class UserControllerAPI extends Controller
         $user->delete();
         /* Send Email to notify user */
         
-        \Mail::to($user)->send(new MailSender('emails.delete', $user));
+        Mail::to($user)->send(new MailSender('emails.delete', $user));
         
         /* End notification */
         return response()->json(null, 204);
@@ -305,7 +306,7 @@ class UserControllerAPI extends Controller
     /*public function sendMail(Request $request) {
         $admin = User::where('email', $request->email)->first();
         if ($admin != null && $admin->admin == 1) {
-            \Mail::to($admin)->send(new MailSender('emails.adminReset', $admin));
+            Mail::to($admin)->send(new MailSender('emails.adminReset', $admin));
             return response()->json(['admin' => '1'], 200);
         }
         return response()->json(['admin' => '0'], 401);
@@ -318,7 +319,7 @@ class UserControllerAPI extends Controller
         $admin->password = Hash::make('secret'); 
         $admin->save();
 
-        \Mail::to($admin)->send(new MailSender('emails.newPassword', $admin));
+        Mail::to($admin)->send(new MailSender('emails.newPassword', $admin));
 
         
     }

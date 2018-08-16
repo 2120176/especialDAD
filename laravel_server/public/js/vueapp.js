@@ -51597,11 +51597,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         deleteUser: function deleteUser(user) {
             var _this4 = this;
 
-            axios.delete('api/users/' + user.id).then(function (response) {
-                _this4.successMessage = 'User Deleted';
-            }).then(function (response) {
-                _this4.getUsers();
-            });
+            if (window.confirm("Do you really want to delete the user " + user.name + "?")) {
+                axios.delete('api/users/' + user.id).then(function (response) {
+                    _this4.successMessage = 'User Deleted';
+                }).then(function (response) {
+                    _this4.getUsers();
+                });
+            }
         },
         changePassword: function changePassword() {
             this.changePasswordAdmin = true;
@@ -51910,7 +51912,7 @@ var render = function() {
           _c(
             "a",
             {
-              staticClass: "btn btn-xs btn-warning",
+              staticClass: "btn btn-xs btn-success",
               on: {
                 click: function($event) {
                   $event.preventDefault()
@@ -51918,7 +51920,7 @@ var render = function() {
                 }
               }
             },
-            [_vm._v("Unlock Reason")]
+            [_vm._v("Unlock User")]
           ),
           _vm._v(" "),
           _c(
@@ -56397,7 +56399,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -56408,13 +56410,6 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -56499,7 +56494,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             var postData = {
                 email: this.settings.email,
-                username: this.settings.username,
                 password: this.settings.password,
                 host: this.settings.host,
                 port: this.settings.port,
@@ -56508,7 +56502,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             console.log(postData);
 
             //postdata nao ta a funcionar por isso passei os parametros individualmente
-            axios.post('/api/changePlatformEmail', { "email": this.settings.email, "username": this.settings.username, "password": this.settings.password,
+            axios.post('/api/changePlatformEmail', { "email": this.settings.email, "password": this.settings.password,
                 "host": this.settings.host, "port": this.settings.port, "encryption": this.settings.encryption }).then(function (response) {
                 _this.success = response.data.msg;
             }).catch(function (error) {});
@@ -56656,45 +56650,6 @@ var render = function() {
                         return
                       }
                       _vm.$set(_vm.settings, "host", $event.target.value)
-                    }
-                  }
-                })
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "form-group row" }, [
-              _c(
-                "label",
-                {
-                  staticClass:
-                    "col-sm-2 col-form-label col-form-label-lg text-right"
-                },
-                [_vm._v("Username *")]
-              ),
-              _vm._v(" "),
-              _c("div", { staticClass: "col-sm-10" }, [
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.settings.username,
-                      expression: "settings.username"
-                    }
-                  ],
-                  staticClass: "form-control",
-                  attrs: {
-                    type: "text",
-                    placeholder: "Host username",
-                    required: ""
-                  },
-                  domProps: { value: _vm.settings.username },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(_vm.settings, "username", $event.target.value)
                     }
                   }
                 })

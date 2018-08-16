@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Resources\Config as ConfigSettings;
@@ -16,7 +17,6 @@ class ConfigControllerAPI extends Controller
         $validator = Validator::make($request->all(), [
             'email' => 'required|email',
             'host' => 'required',
-            'username' => 'required',
             'password' => 'required',
             'port' => 'required|integer|min:1|max:65535',
             'encryption' => 'required'
@@ -27,14 +27,20 @@ class ConfigControllerAPI extends Controller
             $email = $request->input('email');
             $host = $request->input('host');
             $port = $request->input('port');
-            $username = $request->input('username');
             $password = $request->input('password');
             $encryption= $request->input('encryption');
             $platform_email_properties = json_encode(array_except($request->all(), ['email']));
 
+            config([
+                'mail.host' => $host,
+                'mail.port' => $port,
+                'mail.username' => $email,
+                'mail.password' => $password,
+                'mail.encryption' => $encryption,
+            ]);
+
             DB::table('config')->where('id', 1)->update(['platform_email' => $email]);
             DB::table('config')->where('id', 1)->update(['platform_email_properties' => $platform_email_properties]);
-
 
             /*$this->setEnvironmentValue('MAIL_HOST', $host);
             $this->setEnvironmentValue('MAIL_PORT', $port);
@@ -54,7 +60,7 @@ class ConfigControllerAPI extends Controller
         return new ConfigSettings($settings);
     }
 
-    public function setEnvironmentValue($envKey, $envValue)
+    /*public function setEnvironmentValue($envKey, $envValue)
     {
         $envFile = app()->environmentFilePath();
         $str = file_get_contents($envFile);
@@ -66,6 +72,6 @@ class ConfigControllerAPI extends Controller
         $fp = fopen($envFile, 'w');
         fwrite($fp, $str);
         fclose($fp);
-    }
+    }*/
 
 }
