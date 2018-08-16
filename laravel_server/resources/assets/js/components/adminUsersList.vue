@@ -14,7 +14,7 @@
         <input required
             type="text" class="form-control" v-model="unblockReason"
             name="unlockReason" id="unlockReason"/>
-        <a class="btn btn-xs btn-warning" v-on:click.prevent="unlockUser(user)">Unlock Reason</a>
+        <a class="btn btn-xs btn-success" v-on:click.prevent="unlockUser(user)">Unlock User</a>
         <a class="btn btn-xs btn-default" v-on:click.prevent="cancel">Cancel</a>
     </div>
 
@@ -102,13 +102,14 @@
             },
 
             deleteUser: function(user){
-                axios.delete('api/users/'+user.id)
-                    .then(response => {
-                        this.successMessage = 'User Deleted';
-                    }).then(response => {
+                if (window.confirm("Do you really want to delete the user " + user.name + "?")) {
+                    axios.delete('api/users/' + user.id)
+                        .then(response => {
+                            this.successMessage = 'User Deleted';
+                        }).then(response => {
                         this.getUsers();
                     });
-                
+                }
             },
             changePassword: function () {
                 this.changePasswordAdmin = true;

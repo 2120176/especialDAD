@@ -26,6 +26,7 @@ const register = Vue.component('register', require('./components/register.vue'))
 const userAccount = Vue.component('userAccount', require('./components/userAccount.vue'));
 const forgot = Vue.component('forgot', require('./components/forgot.vue'));
 const verifyUser = Vue.component('verifyUser', require('./components/verifyUser.vue'));
+const resetPassword = Vue.component('resetPassword', require('./components/resetPassword.vue'));
 
 
 const sueca = Vue.component('sueca', require('./components/sueca.vue'));
@@ -58,6 +59,7 @@ const routes = [
     {path: '/logout', component: logout},
     {path: '/register', component: register},
     {path: '/verifyUser/:token', component: verifyUser, props: true},
+    {path: '/resetPassword/:token', component: resetPassword, props: true},
     {path: '/adminLogin', component: adminLogin},
     {path: '/adminMasterPage', component: adminMasterPage},
     {path: '/adminUserDetails/:id', component: adminUserDetails},

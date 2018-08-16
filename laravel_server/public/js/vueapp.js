@@ -1519,6 +1519,7 @@ var register = Vue.component('register', __webpack_require__(70));
 var userAccount = Vue.component('userAccount', __webpack_require__(73));
 var forgot = Vue.component('forgot', __webpack_require__(78));
 var verifyUser = Vue.component('verifyUser', __webpack_require__(81));
+var resetPassword = Vue.component('resetPassword', __webpack_require__(181));
 
 var sueca = Vue.component('sueca', __webpack_require__(84));
 
@@ -1543,7 +1544,7 @@ var changeAdminEmail = Vue.component('changeAdminEmail', __webpack_require__(156
 var changeAdminPassword = Vue.component('changeAdminPassword', __webpack_require__(161));
 var platformEmailSettings = Vue.component('platformEmailSettings', __webpack_require__(166));
 
-var routes = [{ path: '/', redirect: '/login' }, { path: '/users', component: user }, { path: '/login', component: login }, { path: '/logout', component: logout }, { path: '/register', component: register }, { path: '/verifyUser/:token', component: verifyUser, props: true }, { path: '/adminLogin', component: adminLogin }, { path: '/adminMasterPage', component: adminMasterPage }, { path: '/adminUserDetails/:id', component: adminUserDetails }, { path: '/adminPassword', component: adminPassword }, { path: '/playerStatistics', component: playerStatistics }, { path: '/adminStatistics', component: adminStatistics }, { path: '/userAccount', component: userAccount }, { path: '/forgot', component: forgot }, { path: '/decksManagement', component: decksManagement }, { path: '/sueca', component: sueca }, { path: '/adminSettings', component: adminSettings }, { path: '/accountSettings', component: accountSettings }];
+var routes = [{ path: '/', redirect: '/login' }, { path: '/users', component: user }, { path: '/login', component: login }, { path: '/logout', component: logout }, { path: '/register', component: register }, { path: '/verifyUser/:token', component: verifyUser, props: true }, { path: '/resetPassword/:token', component: resetPassword, props: true }, { path: '/adminLogin', component: adminLogin }, { path: '/adminMasterPage', component: adminMasterPage }, { path: '/adminUserDetails/:id', component: adminUserDetails }, { path: '/adminPassword', component: adminPassword }, { path: '/playerStatistics', component: playerStatistics }, { path: '/adminStatistics', component: adminStatistics }, { path: '/userAccount', component: userAccount }, { path: '/forgot', component: forgot }, { path: '/decksManagement', component: decksManagement }, { path: '/sueca', component: sueca }, { path: '/adminSettings', component: adminSettings }, { path: '/accountSettings', component: accountSettings }];
 
 var router = new __WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]({
     routes: routes
@@ -47811,8 +47812,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.token = localStorage.getItem('token');
             //console.log("get Logged User");
             axios.get('/api/user', {
-                headers: { 'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + this.token }
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + this.token
+                }
             }).then(function (response) {
                 _this.logged_user = response.data;
                 //console.log (this.logged_user.id);
@@ -48010,7 +48013,7 @@ var render = function() {
               ])
             ]),
             _vm._v(" "),
-            _c("div", { staticClass: "btn-group" }, [
+            _c("div", { staticClass: "btn-group pull-right" }, [
               _c(
                 "button",
                 {
@@ -48955,34 +48958,43 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  data: function data() {
-    return {
-      email: null
-    };
-  },
-  // end data
-  methods: {
-    sendEmail: function sendEmail() {
-      var _this = this;
+    data: function data() {
+        return {
+            email: '',
+            success: false
+        };
+    },
 
-      console.log('send Email: ', this.email);
-      axios.get('/api/adminEmail/' + this.email, this.email).then(function (response) {
-        var isAdmin = response.data.admin;
-        console.log('isAdmin1', isAdmin);
+    methods: {
+        sendEmail: function sendEmail() {
+            var _this = this;
 
-        if (isAdmin) {// email é válido e pode-se mandar email
-          //enviar email
+            axios.post('/api/forgot-password', { email: this.email }).then(function (response) {
+                console.log('response', response);
+                _this.success = response.data.msg;
+            }).catch(function (response) {
+                console.log('response', response);
+            });
+        },
+
+
+        back: function back() {
+            this.$router.go(-1);
         }
-      }).then(function (response) {
-        _this.$router.push('/adminMasterPage');
-      }).catch(function (error) {
-        console.log('error: ', error);
-        alert("Error: Invalid Email/ Not allowed");
-      });
     }
-  } // end methods
 });
 
 /***/ }),
@@ -48993,47 +49005,98 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("form", [
-    _c("div", { staticClass: "form-group" }, [
-      _c("label", { attrs: { for: "email" } }, [_vm._v("Email")]),
-      _vm._v(" "),
-      _c("input", {
+  return _c("div", [
+    _c("h1", [_vm._v("Forgot password")]),
+    _vm._v(" "),
+    _c("p"),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
         directives: [
           {
-            name: "model",
-            rawName: "v-model",
-            value: _vm.email,
-            expression: "email"
+            name: "show",
+            rawName: "v-show",
+            value: _vm.success,
+            expression: "success"
           }
         ],
-        staticClass: "form-control",
-        attrs: { type: "email", id: "email" },
-        domProps: { value: _vm.email },
-        on: {
-          input: function($event) {
-            if ($event.target.composing) {
-              return
-            }
-            _vm.email = $event.target.value
-          }
-        }
-      })
-    ]),
+        staticClass: "alert alert-success alert-dismissable"
+      },
+      [
+        _c(
+          "a",
+          {
+            staticClass: "close",
+            attrs: { href: "#", "data-dismiss": "alert", "aria-label": "close" }
+          },
+          [_vm._v("×")]
+        ),
+        _vm._v(" "),
+        _c("strong", [_vm._v(_vm._s(_vm.success))])
+      ]
+    ),
     _vm._v(" "),
-    _c("div", { staticClass: "text-center" }, [
-      _c(
-        "a",
-        {
-          staticClass: "btn btn-primary",
+    _c("form", [
+      _c("div", { staticClass: "form-group" }, [
+        _c("label", { attrs: { for: "email" } }, [_vm._v("Email")]),
+        _vm._v(" "),
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.email,
+              expression: "email"
+            }
+          ],
+          staticClass: "form-control",
+          attrs: {
+            type: "email",
+            placeholder: "Enter your email address",
+            id: "email"
+          },
+          domProps: { value: _vm.email },
           on: {
-            click: function($event) {
-              $event.preventDefault()
-              _vm.sendEmail()
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.email = $event.target.value
             }
           }
-        },
-        [_vm._v("Send Email")]
-      )
+        })
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "text-center form-group" }, [
+        _c(
+          "a",
+          {
+            staticClass: "btn btn-primary",
+            on: {
+              click: function($event) {
+                $event.preventDefault()
+                _vm.sendEmail()
+              }
+            }
+          },
+          [_vm._v("Send Email")]
+        ),
+        _vm._v(" "),
+        _c(
+          "a",
+          {
+            staticClass: "btn btn-warning",
+            on: {
+              click: function($event) {
+                $event.preventDefault()
+                _vm.back()
+              }
+            }
+          },
+          [_vm._v("Back")]
+        )
+      ])
     ])
   ])
 }
@@ -50969,7 +51032,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
 
 
 
@@ -51269,11 +51331,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         deleteUser: function deleteUser(user) {
             var _this4 = this;
 
-            axios.delete('api/users/' + user.id).then(function (response) {
-                _this4.successMessage = 'User Deleted';
-            }).then(function (response) {
-                _this4.getUsers();
-            });
+            if (window.confirm("Do you really want to delete the user " + user.name + "?")) {
+                axios.delete('api/users/' + user.id).then(function (response) {
+                    _this4.successMessage = 'User Deleted';
+                }).then(function (response) {
+                    _this4.getUsers();
+                });
+            }
         },
         changePassword: function changePassword() {
             this.changePasswordAdmin = true;
@@ -51582,7 +51646,7 @@ var render = function() {
           _c(
             "a",
             {
-              staticClass: "btn btn-xs btn-warning",
+              staticClass: "btn btn-xs btn-success",
               on: {
                 click: function($event) {
                   $event.preventDefault()
@@ -51590,7 +51654,7 @@ var render = function() {
                 }
               }
             },
-            [_vm._v("Unlock Reason")]
+            [_vm._v("Unlock User")]
           ),
           _vm._v(" "),
           _c(
@@ -51748,20 +51812,6 @@ var render = function() {
                   }
                 },
                 [_vm._v("Users")]
-              ),
-              _vm._v(" -\n                "),
-              _c(
-                "a",
-                {
-                  staticClass: "btn btn-primary",
-                  on: {
-                    click: function($event) {
-                      $event.preventDefault()
-                      _vm.resetPWAdmin($event)
-                    }
-                  }
-                },
-                [_vm._v("Reset Admin Password")]
               ),
               _vm._v(" -\n                "),
               _c(
@@ -56083,7 +56133,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -56094,13 +56144,6 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -56185,7 +56228,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             var postData = {
                 email: this.settings.email,
-                username: this.settings.username,
                 password: this.settings.password,
                 host: this.settings.host,
                 port: this.settings.port,
@@ -56194,7 +56236,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             console.log(postData);
 
             //postdata nao ta a funcionar por isso passei os parametros individualmente
-            axios.post('/api/changePlatformEmail', { "email": this.settings.email, "username": this.settings.username, "password": this.settings.password,
+            axios.post('/api/changePlatformEmail', { "email": this.settings.email, "password": this.settings.password,
                 "host": this.settings.host, "port": this.settings.port, "encryption": this.settings.encryption }).then(function (response) {
                 _this.success = response.data.msg;
             }).catch(function (error) {});
@@ -56342,45 +56384,6 @@ var render = function() {
                         return
                       }
                       _vm.$set(_vm.settings, "host", $event.target.value)
-                    }
-                  }
-                })
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "form-group row" }, [
-              _c(
-                "label",
-                {
-                  staticClass:
-                    "col-sm-2 col-form-label col-form-label-lg text-right"
-                },
-                [_vm._v("Username *")]
-              ),
-              _vm._v(" "),
-              _c("div", { staticClass: "col-sm-10" }, [
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.settings.username,
-                      expression: "settings.username"
-                    }
-                  ],
-                  staticClass: "form-control",
-                  attrs: {
-                    type: "text",
-                    placeholder: "Host username",
-                    required: ""
-                  },
-                  domProps: { value: _vm.settings.username },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(_vm.settings, "username", $event.target.value)
                     }
                   }
                 })
@@ -56567,6 +56570,275 @@ if (false) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 172 */,
+/* 173 */,
+/* 174 */,
+/* 175 */,
+/* 176 */,
+/* 177 */,
+/* 178 */,
+/* 179 */,
+/* 180 */,
+/* 181 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(182)
+}
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(184)
+/* template */
+var __vue_template__ = __webpack_require__(185)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/resetPassword.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-72ccdf83", Component.options)
+  } else {
+    hotAPI.reload("data-v-72ccdf83", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 182 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(183);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(2)("1dd0030f", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-72ccdf83\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resetPassword.vue", function() {
+     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-72ccdf83\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resetPassword.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 183 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(1)(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 184 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: ['token'],
+    data: function data() {
+        return {
+            password: '',
+            confirmPassword: ''
+        };
+    },
+
+    methods: {
+        resetPasswordSubmit: function resetPasswordSubmit() {
+            var _this = this;
+
+            var postData = {
+                password: this.password,
+                confirm_password: this.confirmPassword,
+                token: this.token
+            };
+
+            axios.post('/api/reset-password', postData).then(function (response) {
+                console.log('response', response);
+                _this.$router.push({ path: '/login' });
+            }).catch(function (response) {
+                console.log('response', response);
+            });
+        }
+    }
+});
+
+/***/ }),
+/* 185 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-md-8 col-md-offset-2" }, [
+        _c("h1", [_vm._v("Forgot password")]),
+        _vm._v(" "),
+        _c(
+          "form",
+          {
+            on: {
+              submit: function($event) {
+                $event.preventDefault()
+                _vm.resetPasswordSubmit()
+              }
+            }
+          },
+          [
+            _c("div", { staticClass: "form-group" }, [
+              _c("label", [_vm._v("Password")]),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.password,
+                    expression: "password"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: { placeholder: "Enter your password", type: "password" },
+                domProps: { value: _vm.password },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.password = $event.target.value
+                  }
+                }
+              })
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-group" }, [
+              _c("label", [_vm._v("Confirm password")]),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.confirmPassword,
+                    expression: "confirmPassword"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: {
+                  placeholder: "Enter your password again",
+                  type: "password"
+                },
+                domProps: { value: _vm.confirmPassword },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.confirmPassword = $event.target.value
+                  }
+                }
+              })
+            ]),
+            _vm._v(" "),
+            _c("button", { staticClass: "btn btn-primary pull-right" }, [
+              _vm._v("Reset password")
+            ])
+          ]
+        )
+      ])
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-72ccdf83", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);

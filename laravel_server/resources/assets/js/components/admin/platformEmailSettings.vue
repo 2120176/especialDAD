@@ -24,13 +24,6 @@
                     </div>
 
                     <div class="form-group row">
-                        <label class="col-sm-2 col-form-label col-form-label-lg text-right">Username *</label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" placeholder="Host username" v-model="settings.username" required>
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
                         <label class="col-sm-2 col-form-label col-form-label-lg text-right">Password *</label>
                         <div class="col-sm-10">
                             <input type="password" class="form-control" placeholder="Host password" v-model="settings.password" required>
@@ -92,7 +85,6 @@
             {
                 const postData = {
                     email: this.settings.email,
-                    username: this.settings.username,
                     password: this.settings.password,
                     host: this.settings.host,
                     port: this.settings.port,
@@ -101,7 +93,7 @@
                 console.log(postData);
 
                 //postdata nao ta a funcionar por isso passei os parametros individualmente
-                axios.post('/api/changePlatformEmail', {"email": this.settings.email, "username": this.settings.username, "password": this.settings.password,
+                axios.post('/api/changePlatformEmail', {"email": this.settings.email, "password": this.settings.password,
                     "host": this.settings.host, "port": this.settings.port, "encryption": this.settings.encryption })
                     .then((response) => {
                         this.success = response.data.msg;
