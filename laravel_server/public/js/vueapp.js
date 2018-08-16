@@ -49289,7 +49289,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -49454,7 +49454,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 alert('Current Player is Empty - Cannot Create a Game');
                 return;
             } else {
-                this.$socket.emit('create_game', { gameID: this.gameID });
+                this.$socket.emit('create_game', { playerID: this.playerId, playerName: this.currentPlayer, gameID: this.gameID });
             }
         },
         join: function join(game) {
@@ -49590,7 +49590,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -49653,15 +49653,11 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 //
 //
 //
+//
 
 // Component code (not registered)
 module.exports = {
     props: ['games'],
-    data: function data() {
-        return {
-            playerName: ""
-        };
-    },
     methods: {
         join: function join(game) {
             this.$emit('join-click', game);
@@ -49710,9 +49706,7 @@ var render = function() {
         return _c("tr", { key: game.gameID }, [
           _c("td", [_vm._v(_vm._s(game.gameID))]),
           _vm._v(" "),
-          game.arrayPlayers[0]
-            ? _c("td", [_vm._v(" " + _vm._s(game.arrayPlayers[0].name))])
-            : _vm._e(),
+          _c("td", [_vm._v(" " + _vm._s(game.arrayPlayers[0].name))]),
           _vm._v(" "),
           game.arrayPlayers[1]
             ? _c("td", [_vm._v(" " + _vm._s(game.arrayPlayers[1].name))])
@@ -49742,7 +49736,7 @@ var render = function() {
             _c(
               "a",
               {
-                staticClass: "btn btn-xs btn-primary",
+                staticClass: "btn btn-xs btn-danger",
                 on: {
                   click: function($event) {
                     $event.preventDefault()

@@ -23,9 +23,8 @@
 	        </tr>-->
 			<tr v-for="game in games"  :key="game.gameID">
 				<td>{{ game.gameID }}</td>
-				<!--<td> {{game.arrayPlayers[0].name}}</td>-->
+				<td> {{game.arrayPlayers[0].name}}</td>
 
-				<td v-if="game.arrayPlayers[0]"> {{game.arrayPlayers[0].name}}</td>
 
 				<td v-if="game.arrayPlayers[1]"> {{game.arrayPlayers[1].name}}</td>
 				<td v-if="!game.arrayPlayers[1]"> Waiting for player 2</td>
@@ -36,9 +35,11 @@
 				<td v-if="game.arrayPlayers[3]"> {{game.arrayPlayers[3].name}}</td>
 				<td v-if="!game.arrayPlayers[3]"> Waiting for player 4</td>
 
-				<td>
-					<a class="btn btn-xs btn-primary" v-on:click.prevent="join(game)">Join</a>
-				</td>
+
+
+								<td>
+									<a class="btn btn-xs btn-danger" v-on:click.prevent="join(game)">Join</a>
+								</td>
 
 			</tr>
 
@@ -56,11 +57,6 @@
 	// Component code (not registered)
 	module.exports={
 		props: ['games'],
-        data: function(){
-            return {
-                playerName: "",
-            }
-        },
         methods: {
             join: function (game) {
                 this.$emit('join-click', game);

@@ -37,7 +37,7 @@ io.on('connection', function (socket) {
 
     socket.on('create_game', function (data){
     	let game = games.createGame(data.playerID, data.playerName, socket.id);
-		socket.join(game.gameID);
+		//socket.join(game.gameID, game.playerName, game.socketID);
 		// Notifications to the client
 		socket.emit('my_active_games_changed');
 		io.emit('lobby_changed');
@@ -45,7 +45,7 @@ io.on('connection', function (socket) {
 
     socket.on('join_game', function (data){
     	let game = games.joinGame(data.gameID, data.playerID, data.playerName, socket.id);
-		socket.join(game.gameID);
+		socket.join(game.gameID, game.playerName, game.socketID);
 		io.to(game.gameID).emit('my_active_games_changed');
 		io.emit('lobby_changed');
     });

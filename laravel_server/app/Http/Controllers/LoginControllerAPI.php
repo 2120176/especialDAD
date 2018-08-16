@@ -10,13 +10,13 @@ use App\User;
 define('YOUR_SERVER_URL', 'http://especial.dad');
 // Check "oauth_clients" table for next 2 values:
 define('CLIENT_ID', '2');
-define('CLIENT_SECRET','QfuZEGV5Pwrx59pq1rigerkIDGWKpnFrMAegfnTA');
+define('CLIENT_SECRET','1HsZ8aK2qV0P4TXLVNW9bBSnvjFAjEPPlY5tliUX');
 
 class LoginControllerAPI extends Controller
 {
 	public function login(Request $request)
 	{
-        
+
 		$user = User::orWhere('email', $request->email)->orWhere('nickname', $request->email)->first();
         if($user == null){
             return response()->json(['msg'=>'Utilizador/email não existe.'], 400);

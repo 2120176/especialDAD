@@ -2,7 +2,7 @@
 
 class BlackJackGame {
     constructor(ID, playerID, playerName, socketID) {
-        this.numPlayers = 0;
+        this.numPlayers = 1;
         this.winner = 0;
         this.winnerP = 0;
         this.arrayBaralho = [];
@@ -10,7 +10,7 @@ class BlackJackGame {
         this.arraySockets = [];
         //this.gameOwner = owner.id;
         this.arrayPlayers = []; // array populado quando feito o join
-        this.join(playerID);
+        this.join(playerID, playerName, socketID);
         this.gameEnded = false;
         this.gameStarted = false;
         this.gameID = ID;
@@ -31,127 +31,119 @@ class BlackJackGame {
         this.firtCardPlayed;
         this.roundNumber = 0;
 
-        let player = {
-            playerID: playerID,
-            socketID: socketID,
-            name: playerName,
-            score: 0,
-            team: 1,
-            hand: []
-        }
-        this.numPlayers = this.arrayPlayers.push(player);
-
     }
 
     startGame() {
 
-        // if (this.numPlayers != 4) {
-        //   return;
-        // }
+       // if (this.numPlayers != 4) {
+       //   return;
+       // }
 
-        //incializar arrayBaralho
-        // randomize arrayBaralho
-        this.inicializarArrayBaralho();
-        // console.log("arrayBaralho");
-        // console.log(this.arrayBaralho);
+       //incializar arrayBaralho
+       // randomize arrayBaralho
+       this.inicializarArrayBaralho();
+       // console.log("arrayBaralho");
+       // console.log(this.arrayBaralho);
 
-        //Zerar pontuacoes
-        this.zerarPontuacoes();
-        // console.log("arrayPontuacao");
-        // console.log(this.arrayPontuacao);
+       //Zerar pontuacoes
+       this.zerarPontuacoes();
+       // console.log("arrayPontuacao");
+       // console.log(this.arrayPontuacao);
 
-        // inicialize boardGame
-        this.boardGame = new Array(3);
-        this.playerGame = new Array(4);
-        this.trunfoGame = new Array(1);
+       // inicialize boardGame
+       this.boardGame = new Array(3);
+       this.playerGame = new Array(4);
+       this.trunfoGame = new Array(1);
 
-        for (let i = 0; i < 3; i++) {
-            this.boardGame[i] = new Array(3);
-        }
+       for (let i = 0; i < 3; i++) {
+         this.boardGame[i] = new Array(3);
+       }
 
-        for (let i = 0; i < 4; i++) {
-            this.playerGame[i] = new Array(11);
-        }
+       for (let i = 0; i < 4; i++) {
+         this.playerGame[i] = new Array(11);
+       }
 
-        for (let i = 0; i < 1; i++) {
-            this.trunfoGame[i] = new Array(1);
-        }
-
-
-      /* preenchimento da boardGame com todos os componentes */
-        //COLOCAÇÃO SITOS PLAYER
-        this.resetBoardGame();
-
-        // popular board game (cartas jogadas)
-        for (let j = 0; j < 3; j++) {
-            for (let k = 0; k < 3; k++) {
-                if (this.boardGame[j][k] != 'Player1'
-                    && this.boardGame[j][k] != 'Player2'
-                    && this.boardGame[j][k] != 'Player3'
-                    && this.boardGame[j][k] != 'Player4') {
-                    this.boardGame[j][k] = 'Empty';
-                }
-            }
-        }
-      /* fim da população do boardGame */
+       for (let i = 0; i < 1; i++) {
+         this.trunfoGame[i] = new Array(1);
+       }
 
 
-        //Distribuir Cards pro players
-        // console.log("Sockets " + this.arraySockets);
-        // console.log("Player " + this.arrayPlayers);
+       /* preenchimento da boardGame com todos os componentes */
+       //COLOCAÇÃO SITOS PLAYER
+       this.resetBoardGame();
+
+       // popular board game (cartas jogadas)
+       for (let j = 0; j < 3; j++) {
+         for (let k = 0; k < 3; k++) {
+           if (this.boardGame[j][k] != 'Player1'
+             && this.boardGame[j][k] != 'Player2'
+             && this.boardGame[j][k] != 'Player3'
+             && this.boardGame[j][k] != 'Player4') {
+             this.boardGame[j][k] = 'Empty';
+           }
+         }
+       }
+       /* fim da população do boardGame */
 
 
-        // for (let i = 1; i < this.playerGame.length; i++) {
-        //   this.playerGame[0][0] = "Player1";
-        //   this.playerGame[i][0] = this.arrayBaralho[i-1];
-        //   this.currentCard++;
-        // }
-
-        // popular P1,P2,P3,P4
-        let xy= 0;
-        for (let i = 0; i < 4; i++) {
-            for (let j = 0; j < this.playerGame.length; j++) {
-                xy=i+1;
-                this.playerGame[i][0] = "Player" + xy;
-            }
-        }
+       //Distribuir Cards pro players
+       // console.log("Sockets " + this.arraySockets);
+       // console.log("Player " + this.arrayPlayers);
 
 
-        // random 1º jogador
+       // for (let i = 1; i < this.playerGame.length; i++) {
+       //   this.playerGame[0][0] = "Player1";
+       //   this.playerGame[i][0] = this.arrayBaralho[i-1];
+       //   this.currentCard++;
+       // }
 
-        let randomPlayer = Math.floor(Math.random() * 3); // queremos o zero :D
-        console.log("randomPlayer", randomPlayer);
-        this.whosTurn = randomPlayer+1;
-        this.firstPlayer = randomPlayer+1;
-        let jaTenhoCartas = 0;
-        // console.log('trunfo baralho', this.arrayBaralho[0]);
-        this.trunfoCard = this.arrayBaralho[0];
-      /* popular cartas no playerGame */
-        for (let k = randomPlayer; k <=3 ; k++){
-            if(jaTenhoCartas != 4) {
-                for (var m = 1; m < 11; m++) {
-                    this.playerGame[k][m] = "semFace";
-                    //this.playerGame[k][m] = this.arrayBaralho[this.currentCard];
-                    //this.currentCard++;
-                }
-                jaTenhoCartas++;
-
-                if (k == 3) {
-                    k = -1;
-                }
-            } else {
-                k = 4;
-            }
-
-        } // fim do for do k
+       // popular P1,P2,P3,P4
+       let xy= 0;
+       for (let i = 0; i < 4; i++) {
+         for (let j = 0; j < this.playerGame.length; j++) {
+           xy=i+1;
+           this.playerGame[i][0] = "Player" + xy;
+         }
+       }
 
 
+       // random 1º jogador
 
-        this.trunfoGame[0][0] = this.arrayBaralho[0];
+       let randomPlayer = Math.floor(Math.random() * 3); // queremos o zero :D
+       console.log('randomPlayer' + randomPlayer);
+       this.whosTurn = randomPlayer+1;
+       this.firstPlayer = randomPlayer+1;
+       let jaTenhoCartas = 0;
+       // console.log('trunfo baralho', this.arrayBaralho[0]);
+       this.trunfoCard = this.arrayBaralho[0];
+       /* popular cartas no playerGame */
+       for (let k = randomPlayer; k <=3 ; k++){
+         if(jaTenhoCartas != 4) {
+           for (var m = 1; m < 11; m++) {
 
-        this.gameTurn = 2;
-        this.gameStarted = true;
-    }
+             this.playerGame[k][m] = "semFace";
+
+             // this.playerGame[k][m] = this.arrayBaralho[this.currentCard];
+             // this.currentCard++;
+           }
+           jaTenhoCartas++;
+
+           if (k == 3) {
+             k = -1;
+           }
+         } else {
+           k = 4;
+         }
+
+       } // fim do for do k
+
+
+
+       this.trunfoGame[0][0] = this.arrayBaralho[0];
+
+       this.gameTurn = 2;
+       this.gameStarted = true;
+     }
 
     zerarPontuacoes () {
         for (let i = 0; i< this.numPlayers; i++) {

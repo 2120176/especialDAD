@@ -107,7 +107,8 @@
                     return;
                 }
                 else {
-                    this.$socket.emit('create_game', { gameID: this.gameID });
+                    this.$socket.emit('create_game', { playerID: this.playerId, playerName: this.currentPlayer, gameID: this.gameID });
+
                 }
             },
             join(game){
