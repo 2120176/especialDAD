@@ -42,18 +42,18 @@ class BlackJackGame {
        //incializar arrayBaralho
        // randomize arrayBaralho
        this.inicializarArrayBaralho();
-       // console.log("arrayBaralho");
-       // console.log(this.arrayBaralho);
+        console.log("arrayBaralho");
+        console.log(this.arrayBaralho);
 
        //Zerar pontuacoes
        this.zerarPontuacoes();
-       // console.log("arrayPontuacao");
-       // console.log(this.arrayPontuacao);
+        console.log("arrayPontuacao");
+        console.log(this.arrayPontuacao);
 
        // inicialize boardGame
-       this.boardGame = new Array(3);
-       this.playerGame = new Array(4);
-       this.trunfoGame = new Array(1);
+       this.boardGame = new Array(3); // MESA DE JOGO
+       this.playerGame = new Array(4); // MESA DAS CARTAS
+       this.trunfoGame = new Array(1); // MESA DO TRUNFO
 
        for (let i = 0; i < 3; i++) {
          this.boardGame[i] = new Array(3);
@@ -87,8 +87,8 @@ class BlackJackGame {
 
 
        //Distribuir Cards pro players
-       // console.log("Sockets " + this.arraySockets);
-       // console.log("Player " + this.arrayPlayers);
+        console.log("Sockets " + this.arraySockets);
+        console.log("Player " + this.arrayPlayers);
 
 
        // for (let i = 1; i < this.playerGame.length; i++) {
@@ -121,10 +121,10 @@ class BlackJackGame {
          if(jaTenhoCartas != 4) {
            for (var m = 1; m < 11; m++) {
 
-             this.playerGame[k][m] = "semFace";
+             //this.playerGame[k][m] = "semFace";
 
-             // this.playerGame[k][m] = this.arrayBaralho[this.currentCard];
-             // this.currentCard++;
+             this.playerGame[k][m] = this.arrayBaralho[this.currentCard];
+             this.currentCard++;
            }
            jaTenhoCartas++;
 
@@ -174,21 +174,17 @@ class BlackJackGame {
     }
 
     join(playerID, playerName, socketID){
-
+      if (this.hasPlayer(playerID)) {
+        return;
+      }
+      if (this.numPlayers >= 4) {
+        return;
+      }
         if (this.numPlayers < 4) {
-            let teamNumber = undefined;
-            if (this.numPlayers % 2 != 0) {
-                teamNumber = 1;
-            } else {
-                teamNumber = 2;
-            }
             let player = {
                 playerID: playerID,
                 socketID: socketID,
-                name: playerName,
-                score: 0,
-                team: teamNumber,
-                hand: []
+                name: playerName
             }
             this.numPlayers = this.arrayPlayers.push(player);
         }
@@ -220,8 +216,8 @@ class BlackJackGame {
         if (this.gameEnded) {
             return;
         }
-
-
+console.log("ESTUPIPO!!!!!");
+console.log(this.whosTurn);
 
         if (playerID != 1 && this.whosTurn != 0) {
             if (playerID-1 == this.whosTurn+1) {
@@ -247,7 +243,7 @@ class BlackJackGame {
         } // fim do for do k
 
 
-        /* if (playerID == 1) {
+         if (playerID == 1) {
 
              this.boardGame[0][1] = this.playerGame[playerID-1][index];
 
@@ -289,8 +285,8 @@ class BlackJackGame {
          if (this.roundNumber == 10) { //jogo terminou
              this.gameEnded == true;
 
-           /*
-            if (houve renuncia) ???
+
+            //if (houve renuncia) ???
 
 
              if (this.pontuacaoP1P3 > this.pontuacaoP2P4) {
@@ -300,7 +296,7 @@ class BlackJackGame {
              } else {
                  // cada player recebe 1 ponto
              }
-         }*/
+         }
 
         return true;
     } // end play function
