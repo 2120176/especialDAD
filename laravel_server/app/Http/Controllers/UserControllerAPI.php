@@ -351,6 +351,16 @@ class UserControllerAPI extends Controller
             $avatarImg = Image::make($base64avatar);
             $avatarImg->resize(200, 200)->save('img/avatar/' . $user->id . '.png');
 
+        $email_configuration_data = (array)json_decode(DB::table('config')->first()->platform_email_properties);
+        $string = str_replace('\"', '"', $email_configuration_data['port']);
+        $var1 = (int)$email_configuration_data['port'];
+        dd($var1);
+        //dd($var1);
+       // dd(trim($email_configuration_data['port'], '\"') );
+        //dd(str_replace('"', "", $email_configuration_data['password']));
+        //dd(str_replace("\"","",$email_configuration_data['encryption']));
+        //dd(stripslashes($email_configuration_data['encryption']));
+
             return response()->json(['msg' => 'Avatar changed!'],200);
 
     }

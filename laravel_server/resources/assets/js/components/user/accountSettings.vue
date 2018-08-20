@@ -24,7 +24,7 @@
 
         <div v-show="editingUser">
 
-            <changeUserInfo :name="name" :nickname="nickname" :email="email"></changeUserInfo>
+            <changeUserInfo ></changeUserInfo>
             <changeUserPassword></changeUserPassword>
             <changeAvatar></changeAvatar>
             <deleteUserAccount></deleteUserAccount>

@@ -145,6 +145,10 @@
                     console.log(error);
                 });
             }, // end function
+
+            logout: function() {
+                this.$router.push({ path: 'logout' })
+            },
         },
         components: {
             'lobby': Lobby,

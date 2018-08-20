@@ -49815,7 +49815,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 _this.isUserLogged = false;
                 console.log(error);
             });
-        } // end function
+        }, // end function
+
+        logout: function logout() {
+            this.$router.push({ path: 'logout' });
+        }
     },
     components: {
         'lobby': __WEBPACK_IMPORTED_MODULE_0__lobby_vue___default.a,
@@ -53862,13 +53866,7 @@ var render = function() {
             ]
           },
           [
-            _c("changeUserInfo", {
-              attrs: {
-                name: _vm.name,
-                nickname: _vm.nickname,
-                email: _vm.email
-              }
-            }),
+            _c("changeUserInfo"),
             _vm._v(" "),
             _c("changeUserPassword"),
             _vm._v(" "),

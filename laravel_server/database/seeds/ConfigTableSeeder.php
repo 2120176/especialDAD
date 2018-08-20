@@ -13,19 +13,18 @@ class ConfigTableSeeder extends Seeder
     {
         DB::table('config')->delete();
 
-        $platform_email = 'recurso_sueca@mail.dad';
+        $platform_email = 'projetosuecadad@gmail.com';
         $driver = 'smtp';
-        $host = 'smtp.mailtrap.io';
-        $port = 2525;
-        $password = '533db335670651';
-        $encryption = null;
+        $host = 'smtp.gmail.com';
+        $port = 587;
+        $password = 'Suecadad2018';
+        $encryption = 'tls';
         $filesPath = 'img/decks/';
-        $username = '53c18acaf64b99';
         $createdAt = Carbon\Carbon::now()->subMonths(2);
 
         $configInfo = [
             'platform_email' => $platform_email,
-            'platform_email_properties' => "{\"username\": \"$username\", \"driver\": \"$driver\", \"host\": \"$host\", \"port\": $port, \"password\": \"$password\", \"encryption\": \"$encryption\" }",
+            'platform_email_properties' => "{\"driver\": \"$driver\", \"host\": \"$host\", \"port\": $port, \"password\": \"$password\", \"encryption\": \"$encryption\" }",
             'img_base_path' => $filesPath,
             'created_at' => $createdAt,
             'updated_at' => $createdAt,

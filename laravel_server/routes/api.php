@@ -82,4 +82,4 @@ Route::put('decks/{id}', 'DeckControllerAPI@update');
 
 
 
-Route::get('defesa', 'UserControllerAPI@getDefesa');
+//Route::get('defesa', 'UserControllerAPI@getDefesa');
