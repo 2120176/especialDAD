@@ -216,7 +216,10 @@ class BlackJackGame {
         if (this.gameEnded) {
             return;
         }
-console.log("ESTUPIPO!!!!!");
+console.log("\nESTUPIPO!!!!!");
+console.log(playerID);
+
+console.log("\n\nESTUPIPO!!!!!");
 console.log(this.whosTurn);
 
         if (playerID != 1 && this.whosTurn != 0) {
@@ -224,23 +227,24 @@ console.log(this.whosTurn);
                 return;
             }
         }
-        this.whosTurn = 0;
+        //this.whosTurn = 0;
 
         if (this.playerGame[playerID-1][index] == "Empty") {
+          console.log("NAO TEM CARTA NESTA POSICAO");
             return;
         }
 
-        for (let k = this.whosTurn; k <=3 ; k++){
-                for (var m = 1; m < 11; m++) {
-                    this.playerGame[2][m] = this.arrayBaralho[this.currentCard];
-                    this.currentCard++;
-                }
-
-                /*if (k == 3) {
-                    k = -1;
-                }*/
-
-        } // fim do for do k
+        // for (let k = this.whosTurn; k <=3 ; k++){
+        //         for (var m = 1; m < 11; m++) {
+        //             this.playerGame[k][m] = this.arrayBaralho[this.currentCard];
+        //             this.currentCard++;
+        //         }
+        //
+        //         if (k == 3) {
+        //             k = -1;
+        //         }
+        //
+        // } // fim do for do k
 
 
          if (playerID == 1) {
