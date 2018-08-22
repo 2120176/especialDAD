@@ -47,9 +47,13 @@
 					</div>
 
 					<div class="optButtons" style="text-align:center;">
-						<p>
+						<!-- <p>
 							<button class="btn btn-xs btn-danger" v-on:click.prevent="giveUp(game)">RENUNCIA</button>
-						</p>
+						</p> -->
+
+						<p class="text-center">Pontuacão P1_P3 = {{ game.pontuacaoP1P3 }}</p>
+						<p class="text-center">Pontuacão P2_P4 = {{ game.pontuacaoP2P4 }}</p>
+
 					</div>
 				</div>
 

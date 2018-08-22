@@ -90,13 +90,6 @@ class BlackJackGame {
         console.log("Sockets " + this.arraySockets);
         console.log("Player " + this.arrayPlayers);
 
-
-       // for (let i = 1; i < this.playerGame.length; i++) {
-       //   this.playerGame[0][0] = "Player1";
-       //   this.playerGame[i][0] = this.arrayBaralho[i-1];
-       //   this.currentCard++;
-       // }
-
        // popular P1,P2,P3,P4
        let xy= 0;
        for (let i = 0; i < 4; i++) {
@@ -216,36 +209,17 @@ class BlackJackGame {
         if (this.gameEnded) {
             return;
         }
-console.log("\nESTUPIPO!!!!!");
-console.log(playerID);
-
-console.log("\n\nESTUPIPO!!!!!");
-console.log(this.whosTurn);
 
         if (playerID != 1 && this.whosTurn != 0) {
             if (playerID-1 == this.whosTurn+1) {
                 return;
             }
         }
-        //this.whosTurn = 0;
 
         if (this.playerGame[playerID-1][index] == "Empty") {
           console.log("NAO TEM CARTA NESTA POSICAO");
             return;
         }
-
-        // for (let k = this.whosTurn; k <=3 ; k++){
-        //         for (var m = 1; m < 11; m++) {
-        //             this.playerGame[k][m] = this.arrayBaralho[this.currentCard];
-        //             this.currentCard++;
-        //         }
-        //
-        //         if (k == 3) {
-        //             k = -1;
-        //         }
-        //
-        // } // fim do for do k
-
 
          if (playerID == 1) {
 
@@ -425,18 +399,41 @@ console.log(this.whosTurn);
 
             // caso não haja trunfo em jogo, saber qual a mais alta do naipe puxado
             var highCardSemTrunfo;
+            var arrayCartasAux = [];
             if (numberTrunfos == 0) {
-                console.log(" ======= Ronda com nenhum trunfo");
+                console.log(" ======= Ronda com nenhum trunfo\n\n");
+
+                // console.log(arrayNaipe); // NAIPES JOGADOS
+                // console.log(arrayNaipeCarta); // CARTA COMPLETA
+                // console.log(this.firtCardPlayed.charAt(0)); // CHAR DA 1ª CARTA
+                // console.log(arrayCartas); // VALOR DAS CARTAS
 
                 for (let y = 0; y < arrayNaipeCarta.length; y++) {
                     if (this.firtCardPlayed.charAt(0) == arrayNaipe[y]) {
-                        highCardSemTrunfo = this.getHighestTrunfo(arrayNaipe);
+
+                      let aux = arrayNaipeCarta[y].substr(1);
+
+                      arrayCartasAux.push(aux);
+
+                      console.log(arrayCartasAux);
+
                     }
+
                 }
 
+                highCardSemTrunfo = this.getHighestTrunfo(arrayCartasAux);
+                console.log(highCardSemTrunfo);
+
+                var highestCardComplete = (this.firtCardPlayed.charAt(0)).concat(highCardSemTrunfo);
+
+                console.log(highestCardComplete);
+
                 // Somar pontuacao
-                if (this.boardGame[0][1] == highCardSemTrunfo || this.boardGame[2][1] == highCardSemTrunfo)
+                if (this.boardGame[0][1] == highestCardComplete || this.boardGame[2][1] == highestCardComplete)
                 {
+
+                  console.log("FODASSE!");
+
                     this.pontuacaoP1P3 += pontuacaoRonda;
                     if(this.boardGame[0][1] == cartasTrunfo[0]) { // Player 1
                         this.whosTurn = 0;
@@ -476,7 +473,8 @@ console.log(this.whosTurn);
         for(let a = 0; a < cartasTrunfo.length; a++) {
             if (cartasTrunfo[a] == 1) { // As
                 highestTrunfoAux = cartasTrunfo[a];
-                a = cartasTrunfo.length;
+                return highestTrunfoAux;
+                //a = cartasTrunfo.length;
             } else if (cartasTrunfo[a] == 7) { // 7
                 highestTrunfoAux = cartasTrunfo[a];
             } else if (cartasTrunfo[a] == 13) { // Rei
@@ -497,6 +495,8 @@ console.log(this.whosTurn);
                 highestTrunfoAux = cartasTrunfo[a];
             }
         }
+        // console.log("\n\nGET NUMBER");
+        // console.log(highestTrunfoAux);
         return highestTrunfoAux;
     }
 
