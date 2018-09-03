@@ -50352,6 +50352,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['game', 'user'],
@@ -50599,20 +50603,12 @@ var render = function() {
               staticStyle: { "text-align": "center" }
             },
             [
-              _c("p", [
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-xs btn-danger",
-                    on: {
-                      click: function($event) {
-                        $event.preventDefault()
-                        _vm.giveUp(_vm.game)
-                      }
-                    }
-                  },
-                  [_vm._v("RENUNCIA")]
-                )
+              _c("p", { staticClass: "text-center" }, [
+                _vm._v("Pontuacão P1_P3 = " + _vm._s(_vm.game.pontuacaoP1P3))
+              ]),
+              _vm._v(" "),
+              _c("p", { staticClass: "text-center" }, [
+                _vm._v("Pontuacão P2_P4 = " + _vm._s(_vm.game.pontuacaoP2P4))
               ])
             ]
           )
