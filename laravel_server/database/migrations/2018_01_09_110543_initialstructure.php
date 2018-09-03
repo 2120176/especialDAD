@@ -56,8 +56,8 @@ class InitialStructure extends Migration
 
         Schema::create('cards', function (Blueprint $table) {
             $table->increments('id');
-            $table->enum('value', ['Ace','2','3','4','5','6','7','8','9','10','Jack','Queen','King']);
-            $table->enum('suite', ['Club','Diamond','Heart','Spade']);
+            $table->enum('value', ['Ace','2','3','4','5','6','7','Jack','Queen','King','Hidden']);
+            $table->enum('suite', ['Club','Diamond','Heart','Spade','None']);
             $table->integer('deck_id')->unsigned();
             $table->foreign('deck_id')->references('id')->on('decks')->onDelete('cascade');
             $table->string('path');

@@ -6,6 +6,10 @@
             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
             <strong>{{ success }}</strong>
         </div>
+        <div  v-if="checkError"class="alert alert-danger alert-dismissable">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <strong>{{ error }}</strong>
+        </div>
         <form>
             <div class="form-group">
                 <label for="email">Email</label>
@@ -29,7 +33,9 @@
         data: function() {
             return {
                 email: '',
-                success: false
+                success: false,
+                checkError: false,
+                error: '',
             }
         },
 
@@ -40,8 +46,9 @@
                     .then(response => {
                     console.log('response', response)
                     this.success = response.data.msg;
-                }).catch(response => {
-                    console.log('response', response)
+                }).catch((error) => {
+                    this.checkError = true;
+                    this.error = error.response.data.msg;
                 });
             },
 

@@ -12,6 +12,10 @@
                 </div>
                 <div class="row">
                     <div class="col-md-8 col-md-offset-2">
+                        <div  v-if="loginError"class="alert alert-danger alert-dismissable">
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            <strong>{{ error }}</strong>
+                        </div>
                         <!--<h1>Login</h1>-->
                         <form v-on:submit.prevent="handleLoginFormSubmit()">
                             <div class="text-left">
@@ -61,6 +65,7 @@ export default {
         isUserLogged: false,
         token : null,
         logged_user: {},
+        error: '',
     };
   },
   methods: {
@@ -107,11 +112,13 @@ export default {
                 console.log(error);
               });
 
-      }).catch(loginError => {
+      }).catch((error) => {
         // Something went wrong!
-        console.log('Login Error: ' + loginError);
+        console.log('Login Error: ' + error.response.data.msg);
         this.loginError = true;
-        alert("Error: Email or password Invalid!");
+        this.error = error.response.data.msg;
+        this.user.email =  null;
+        this.user.password = null;
       });
     },
     forgot() {

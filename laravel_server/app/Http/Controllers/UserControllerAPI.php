@@ -128,7 +128,7 @@ class UserControllerAPI extends Controller
             $user = User::where('email', $request->input('email'))->first();
 
             if (!$user) {
-                return response(['data' => 'Check if email is correct'], 403);
+                return response()->json(['msg'=>'Check if email is correct!'], 403);
             }
 
            /* $token = Token::create([
@@ -148,7 +148,7 @@ class UserControllerAPI extends Controller
 
             return response(['msg' => 'Email sent!'], 200);
         }
-        return response(['data' => $validator->errors()], 433);
+        return response(['msg' => $validator->errors()], 433);
     }
 
     public function update(Request $request, $id)

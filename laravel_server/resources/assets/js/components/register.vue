@@ -32,6 +32,7 @@
             </div>
           </div>
 
+            <button class="btn btn-warning pull-left" v-on:click.prevent="back()">Back</button>
           <div class="btn-group pull-right">
             <button class="btn btn-primary" v-on:click.prevent="register">Register</button>
             <button class="btn btn-danger" v-on:click.prevent="resetUser">Cancel</button>
@@ -105,6 +106,10 @@ export default {
               this.isUserLogged = false;
           });
       }, // end function
+
+      back: function () {
+          this.$router.go(-1);
+      }
   },
   mounted () {
     

@@ -65,7 +65,7 @@
         props: ['game', 'user'],
         data: function(){
 			return {
-
+                chosenValue: 'img/'
             }
         },
 
@@ -105,7 +105,7 @@
                     return "Game has not started yet";
                 } else if (this.game.gameEnded) {
                     if (this.game.winner == this.ownPlayerNumber) {
-                        return "Game has ended. You Win.";
+                        return "Game has ended. You Won.";
                     } else if (this.game.winner == 0) {
                         return "Game has ended. There was a tie.";
                     }
@@ -144,13 +144,16 @@
             },
             pieceImageURL (pieceNumber) {
                 var imgSrc = String(pieceNumber);
-                return 'img/' + imgSrc + '.png';
+                return this.chosenValue + imgSrc + '.png';
             },
             closeGame (){
                 this.$parent.close(this.game);
             },
             startGame(game) {
                 this.$socket.emit('start_game', {gameID : game.gameID});
+                var path1 = 'img/';
+                var path2 = 'img/cartas2/';
+                this.chosenValue = Math.random() < 0.5 ? path1 : path2;
             },
             renunciaClick(game) {
                 this.$socket.emit('renuncia_click', {gameID : game.gameID});

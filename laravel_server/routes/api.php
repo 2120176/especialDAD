@@ -74,11 +74,20 @@ Route::post('register', 'UserControllerAPI@store');
 
 
 // Decks
-Route::post('decks', 'DeckControllerAPI@store');
+/*Route::post('decks', 'DeckControllerAPI@store');
 Route::delete('decks/{id}', 'DeckControllerAPI@delete');
 Route::get('decks', 'DeckControllerAPI@getDecks');
 Route::put('decks/{id}', 'DeckControllerAPI@update');
+Route::get('activeDeck', 'DeckControllerAPI@getActiveDeck');*/
 
+//Cards and Decks
+Route::get('cards', 'CardControllerAPI@getCards');
+Route::delete('cards/{id}', 'CardControllerAPI@deleteCard');
+Route::post('cards', 'CardControllerAPI@store');
+
+Route::get('deck','CardControllerAPI@getDecks');
+Route::post('deck','CardControllerAPI@createDeck');
+Route::delete('deck/{id}','CardControllerAPI@deleteDeck');
 
 
 

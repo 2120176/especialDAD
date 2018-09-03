@@ -2,15 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use Illuminate\Http\Request;
 use App\Http\Resources\User as UserResource;
-
-use App\User;
 
 define('YOUR_SERVER_URL', 'http://especial.dad');
 // Check "oauth_clients" table for next 2 values:
 define('CLIENT_ID', '2');
-define('CLIENT_SECRET','1HsZ8aK2qV0P4TXLVNW9bBSnvjFAjEPPlY5tliUX');
+define('CLIENT_SECRET','4VCEjrQBqbgprwnAF19LXn1jC2FDZz6LltD37eW8');
 
 class LoginControllerAPI extends Controller
 {
@@ -19,15 +18,15 @@ class LoginControllerAPI extends Controller
 
 		$user = User::orWhere('email', $request->email)->orWhere('nickname', $request->email)->first();
         if($user == null){
-            return response()->json(['msg'=>'Utilizador/email não existe.'], 400);
+            return response()->json(['msg'=>'Utilizador/email não existe'], 400);
         }
 
         if($user->verified == 0){
-            return response()->json(['msg'=>'Utilizador não verificado.'], 400);
+            return response()->json(['msg'=>'Utilizador não verificado'], 401);
         }
 
         if($user->blocked == 1) {
-            return response()->json(['msg'=>'Utilizador não activo.'], 400);
+            return response()->json(['msg'=>'Utilizador bloqueado'], 402);
         }
 
 		$http = new \GuzzleHttp\Client;

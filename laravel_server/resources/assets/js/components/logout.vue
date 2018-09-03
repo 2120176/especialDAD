@@ -6,7 +6,7 @@
                 <p><em>{{message}}</em></p>
                 <div class="text-left">
                     <button class="btn btn-primary"  v-on:click="logout()">Logout</button>
-                    <router-link class="btn btn-default" to="/users">Cancel</router-link>
+                    <a class="btn btn-default" v-on:click.prevent="back()">Cancel</a>
                 </div>
             </div>
         </div>
@@ -72,6 +72,9 @@ export default {
                     console.log(error);
                   });
         }, // end function
+        back: function () {
+            this.$router.go(-1);
+        }
 	}, 
 	mounted () {
 		this.getLoggedUser();

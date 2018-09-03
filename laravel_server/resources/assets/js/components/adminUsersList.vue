@@ -21,6 +21,7 @@
     <table class="table table-striped">
         <thead>
         <tr>
+            <th><strong>Id</strong></th>
             <th><strong>Name</strong></th>
             <th><strong>Email</strong></th>
             <th><strong>Nickname</strong></th>
@@ -29,7 +30,8 @@
         </thead>
         <tbody>
         
-        <tr v-for="user in users"  :key="user.id">
+        <tr v-for="user in users"  :key="user.id" :class="{activerow: editingUser === user}">
+            <td>{{ user.id }}</td>
             <td>{{ user.name }}</td>
             <td>{{ user.email }}</td>
             <td>{{ user.nickname }}</td>
@@ -61,6 +63,7 @@
                 blockReason : null,
                 isReasonUnlock : false,
                 unblockReason : null,
+                editingUser: null
             }
         },
         
@@ -76,7 +79,6 @@
                     });
             },
             blockUser: function(user){
-                
                 axios.put('/api/user/blocked/'+ user.id, { 'reason_blocked' : this.blockReason })
 	                .then(response=>{
 	                	// Copy object properties from response.data.data to this.user
@@ -102,6 +104,7 @@
             },
 
             deleteUser: function(user){
+                this.editingUser = null;
                 if (window.confirm("Do you really want to delete the user " + user.name + "?")) {
                     axios.delete('api/users/' + user.id)
                         .then(response => {
@@ -129,14 +132,17 @@
               });
             },
             setReasonUnlock: function (user) {
+                this.editingUser = user;
                 this.isReasonUnlock = true;
                 this.user = user;
             },
             setReasonVisible: function (user) {
+                this.editingUser = user;
                 this.isReason = true;
                 this.user = user;
             },
             cancel: function () {
+                this.editingUser = null;
                 this.isReason = false;
             }
         },
@@ -148,3 +154,10 @@
         }
     }
 </script>
+<style scoped>
+    tr.activerow {
+        background: #123456  !important;
+        color: #fff          !important;
+    }
+
+</style>

@@ -22,7 +22,7 @@ var io = require('socket.io')(app);
 var BlackJackGame = require('./gamemodel.js');
 var GameList = require('./gamelist.js');
 
-app.listen(8080, function(){
+app.listen(8080,  function(){
 	console.log('listening on *:8080');
 });
 

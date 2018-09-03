@@ -3,7 +3,7 @@
         
         <table class="table table-striped">
             
-            <a class="btn btn-xs btn-warning" v-on:click.prevent="home()"> Home</a>
+            <a class="btn btn-xs btn-warning" v-on:click.prevent="home()"> Go Back</a>
             <thead>
                 <h1>Games Finished</h1>
                 <h2> Total of Games = {{ totalGames }}</h2>
@@ -86,7 +86,7 @@
             },
 
             home: function () {
-                this.$router.push('/adminMasterPage');
+                this.$router.go(-1);
             },
 
         },

@@ -9,7 +9,7 @@ class Token extends Model
     protected $guarded = [];
 
     protected $fillable = [
-        'id', 'user_id', 'token'
+        'id', 'user_id', 'token', 'created_at', 'updated_at'
     ];
 
     public function user()
@@ -17,3 +17,4 @@ class Token extends Model
         return $this->belongsTo(User::class);
     }
 }
+

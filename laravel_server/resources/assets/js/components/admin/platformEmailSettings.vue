@@ -1,13 +1,17 @@
 <template>
     <div class="container">
+        <div class="pull-left">
+            <button type="button" class="btn btn-warning " v-on:click="back">Go back</button>
+        </div>
         <div class="row">
             <div class="col-md-10 col-md-offset-2">
-                <h3><strong>Configure platform Email</strong></h3>
+                <h3><strong>Configure platform's Email</strong></h3>
                 <p>&nbsp;</p>
                 <div  v-show="success" class="alert alert-success alert-dismissable">
                     <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                     <strong>{{ success }}</strong>
                 </div>
+
                 <form method="post" v-on:submit.prevent="submitForm">
                     <div class="form-group row ">
                         <label class="col-sm-2 col-form-label col-form-label-lg text-right" >Email*</label>
@@ -112,7 +116,10 @@
                 axios.get('api/getPlatformEmailSettings')
                     .then((response) => {
                         this.settings = response.data.data;
-                })
+                });
+            },
+            back: function () {
+                this.$router.go(-1);
             }
 
         },

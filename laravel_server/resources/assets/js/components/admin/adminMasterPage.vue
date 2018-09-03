@@ -6,31 +6,37 @@
             <strong>{{ message }} </strong>
         </div>
 
-
         <div v-else>
-
-            <h1>Welcome Admin</h1>
+            <div class="jumbotron">
+                <h1>Admin Dashboard </h1>
+            </div>
             <div class="form-group">
-                <a class="btn btn-primary" @click.prevent="usersList">Users</a> -
-                <a class="btn btn-primary" @click.prevent="statistics">Statistics</a> -
-                <a class="btn btn-primary" @click.prevent="playerStatistics">Players Statistics</a> -
-                <a class="btn btn-primary" @click.prevent="gerirBaralhos">Gerir Baralhos</a>
-                
-                <!-- este router link faz a mesma coisa que um botão que está em cima -->
-                <router-link class="btn btn-primary" :to="{path: '/adminSettings' }">
+                <a class="btn btn-default" @click.prevent="usersList">Users</a>
+                <router-link class="btn btn-default" :to="{path: '/adminStatistics' }">
+                    Statistics
+                </router-link>
+
+                <router-link class="btn btn-default" :to="{path: '/playerStatistics' }">
+                    Players Statistics
+                </router-link>
+
+                <router-link class="btn btn-default" :to="{path: '/decksManagement' }">
+                    Manage Decks
+                </router-link>
+
+                <router-link class="btn btn-default" :to="{path: '/adminSettings' }">
                     Settings
-			    </router-link>
-
-
+                </router-link>
+                <button v-on:click="logout()" class="btn btn-primary">Logout</button>
 
             </div>
 
-            <div>
+            <!--<div>
                 <h4 v-if="isVisible"><a @click.prevent="getBlockedUsers">obter total de users bloqueados</a></h4>
                 <h4 v-else> existem {{ defesa }} utilizadores bloqueados </h4>
 
-            </div>
-            
+            </div>-->
+
             <div v-if="userList">
                 <users-list :users="users" @block-click="blockUser" @unlock-click="unlockUser" @delete-click="deleteUser">Users List</users-list>
                 <div class="text-center">
@@ -112,17 +118,6 @@
                         console.log(response.data.data.path);
                     });
             },
-
-            statistics: function() {
-                this.$router.push('/adminStatistics');
-            },
-
-            playerStatistics: function() {
-                this.$router.push('/playerStatistics');
-            },
-            gerirBaralhos: function() {
-                this.$router.push('/decksManagement');
-            },
             resetPWAdmin: function () {
               this.$router.push('/adminPassword');
             },
@@ -150,7 +145,10 @@
                     // não está autenticado
                     console.log(error);
                   });
-            }, // end function
+            },
+            logout: function() {
+                this.$router.push({ path: 'logout' })
+            },
         },
         components: {
             'users-list': AdminUsersList,
@@ -180,8 +178,5 @@
     p {
         font-size: 2em;
         text-align: center;
-    }
-    a {
-        background-color: #2a88bd;
     }
 </style>

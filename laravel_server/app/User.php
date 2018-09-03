@@ -22,9 +22,13 @@ class User extends Authenticatable
         'name',
         'email',
         'nickname',
+        'admin',
+        'blocked',
         'password',
         'reason_blocked',
         'reason_reactivated',
+        'total_points',
+        'total_games_played',
         'verified',
         'avatar',
     ];
@@ -47,7 +51,7 @@ class User extends Authenticatable
         return $this->orWhere('email', $identifier)->orWhere('nickname', $identifier)->first();
     }
 
-    public function verifyUser()
+    /*public function verifyUser()
     {
         return $this->hasOne('App\VerifyUser');
     }
@@ -55,7 +59,7 @@ class User extends Authenticatable
     public function Token()
     {
         return $this->hasOne('App\Token');
-    }
+    }*/
 
 
 }

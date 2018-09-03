@@ -42,4 +42,10 @@ class DeckControllerAPI extends Controller
         $deck->delete();
         return response()->json(null, 204);
     }
+
+    public function getActiveDeck(Request $request){
+        $activeDeckRow = DB::table('decks')->where('active', 1)->first();
+        $activeDeck = $activeDeckRow->pluck('hidden_face_image_path');
+        return $activeDeck;
+    }
 }

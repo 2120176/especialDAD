@@ -11,10 +11,17 @@ class Deck extends Model
         'hidden_face_image_path',
         'active',
         'complete',
+        'created_at',
+        'updated_at',
     ];
 
 
     public function games(){
         return $this->belongsToMany('App\Game');
+    }
+
+    public function cards()
+    {
+        return $this->hasMany('App\Card');
     }
 }

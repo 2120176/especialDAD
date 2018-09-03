@@ -2,6 +2,7 @@
     <table class="table table-striped">
         <thead>
         <tr>
+            <th><strong>Avatar</strong></th>
             <th><strong>Name</strong></th>
             <th><strong>Email</strong></th>
             <th><strong>Nickname</strong></th>
@@ -14,6 +15,7 @@
         </thead>
         <tbody>
         <tr v-if="!aux" v-bind:src="getUser(user)">
+            <td><img v-bind:src="pieceImageURL(user.avatar)" height="100" width="60"> </td>
             <td>{{ user.name }}</td>
             <td>{{ user.email }}</td>
             <td>{{ user.nickname }}</td>
@@ -59,6 +61,13 @@
                   });
                 }
           },
+            pieceImageURL (path) {
+                var imgSrc = String(path);
+                if (imgSrc == "")
+                    imgSrc = "null";
+                return '/img/avatar/' + imgSrc;
+            },
+
           home: function () {
             this.$router.push('/adminMasterPage');
           },
