@@ -435,7 +435,7 @@ class BlackJackGame {
                   console.log("FODASSE!");
 
                     this.pontuacaoP1P3 += pontuacaoRonda;
-                    if(this.boardGame[0][1] == cartasTrunfo[0]) { // Player 1
+                    if(this.boardGame[0][1] == highestCardComplete) { // Player 1
                         this.whosTurn = 0;
                     } else { // Player 3
                         this.whosTurn = 2;
@@ -443,7 +443,7 @@ class BlackJackGame {
                 }
                 else{
                     this.pontuacaoP2P4 += pontuacaoRonda;
-                    if(this.boardGame[1][2] == cartasTrunfo[0]) { // Player 2
+                    if(this.boardGame[1][2] == highestCardComplete) { // Player 2
                         this.whosTurn = 1;
                     } else { // Player 4
                         this.whosTurn = 3;

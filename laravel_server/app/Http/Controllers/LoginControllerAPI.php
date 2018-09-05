@@ -9,7 +9,7 @@ use App\Http\Resources\User as UserResource;
 define('YOUR_SERVER_URL', 'http://especial.dad');
 // Check "oauth_clients" table for next 2 values:
 define('CLIENT_ID', '2');
-define('CLIENT_SECRET','4VCEjrQBqbgprwnAF19LXn1jC2FDZz6LltD37eW8');
+define('CLIENT_SECRET','mG9zwDflI0IMfjRrX16ZaCwW6cQY7igrU2RAkEdx');
 
 class LoginControllerAPI extends Controller
 {

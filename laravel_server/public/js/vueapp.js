@@ -50356,6 +50356,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['game', 'user'],
@@ -50493,6 +50496,10 @@ var render = function() {
             },
             [_vm._v("Close Game")]
           )
+        ]),
+        _vm._v(" "),
+        _c("p", { staticClass: "text-center" }, [
+          _vm._v("PLAYER " + _vm._s(_vm.game.whosTurn + 1) + " PODE JOGAR")
         ])
       ]),
       _vm._v(" "),

@@ -8,6 +8,9 @@
 		<div class="game-zone-content">
     	<div class="alert" :class="alerttype">
       	<strong>{{ message }} &nbsp;&nbsp;&nbsp;&nbsp;<a v-show="game.gameEnded" v-on:click.prevent="closeGame">Close Game</a></strong>
+
+				<p class="text-center">PLAYER {{ game.whosTurn+1}} PODE JOGAR</p>
+
 			 </div>
 
 			 <p><button class="btn btn-xs btn-success"
