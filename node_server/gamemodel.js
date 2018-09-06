@@ -432,8 +432,6 @@ class BlackJackGame {
                 if (this.boardGame[0][1] == highestCardComplete || this.boardGame[2][1] == highestCardComplete)
                 {
 
-                  console.log("FODASSE!");
-
                     this.pontuacaoP1P3 += pontuacaoRonda;
                     if(this.boardGame[0][1] == highestCardComplete) { // Player 1
                         this.whosTurn = 0;

@@ -92,7 +92,7 @@
                 axios.get('api/users')
                     .then(response=>{
                         this.users = response.data.data;
-                        console.log(this.users);
+                        //console.log(this.users);
                     });
             },
             usersList: function(){
@@ -134,7 +134,7 @@
             getLoggedUser: function () {
              let token = localStorage.getItem('token');
             //console.log("get Logged User");
-            axios.get('/api/user', { 
+            axios.get('/api/user', {
                         headers: {'Content-Type' : 'application/json',
                                   'Authorization' : 'Bearer ' + token }
                   }).then(response => {
@@ -162,7 +162,7 @@
             message() {
                 return "You are not alloed to navigate this page!";
             }
-            
+
         },
 
         mounted() {

@@ -2,6 +2,14 @@
   <div class="container">
     <div class="row">
       <div class="col-md-8 col-md-offset-2">
+        <div  v-if="ifError"class="alert alert-danger alert-dismissable">
+          <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+          <strong>{{ error }}</strong>
+        </div>
+        <div  v-show="ifSuccess"class="alert alert-success alert-dismissable">
+          <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+          <strong>{{ success }}</strong>
+        </div>
         <h1>Register</h1>
 
         <form @submit.prevent="register(user)">
@@ -56,10 +64,14 @@ export default {
           logged_user: {},
           isUserLogged: false,
       },
+        ifError: false,
+        error: null,
+        ifSuccess: false,
+        success: null
       //registerError: false
     };
   },
-  
+
   methods: {
 
       resetUser() {
@@ -77,12 +89,18 @@ export default {
               .then(response => {
                   console.log(response);
                   //let successMessage = response.data.message;
-                  alert('Register pending, please check your e-mail');
+                  //alert('Register pending, please check your e-mail');
+                  this.ifSuccess = true;
+                  this.success = response.data.message;
               })
               .catch(error => {
                   console.log('register Error: ' + error);
-                  alert('Erro: Dados não conformes!');
-                  resetUser();
+                  //alert('Erro: Dados não conformes!');
+                  this.ifError = true;
+                  //this.error = json_decode(error.response.data.msg);
+                  this.error = "Algum dado inserido está errado/já existe, pff tente novamente";
+
+          resetUser();
               })
       },
 
@@ -112,7 +130,7 @@ export default {
       }
   },
   mounted () {
-    
+
     // this.getLoggedUser();
   }
 }

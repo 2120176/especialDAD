@@ -14,6 +14,9 @@
 
             <h3 class="text-center">{{ title }}</h3>
             <br>
+
+						  <div><img v-bind:src="pieceImageURL(logged_user.avatar)" height="100" width="80"> </div>
+
             <h2>Current Player : {{ currentPlayer }}</h2>
             <!--<p>Set current player name <input v-model.trim="currentPlayer"></p>
             <p><em>Player name replaces authentication! Use different names on different browsers, and don't change it frequently.</em></p>-->
@@ -43,7 +46,8 @@
                 activeGames: [],
                 socketId: "",
                 playerId: "",
-                gameID: ""
+                gameID: "",
+								logged_user : {}
             }
         },
         sockets:{
@@ -125,6 +129,12 @@
             close(game){
                 this.$socket.emit('remove_game', {gameID: game.gameID });
             },
+
+						pieceImageURL (path) {
+								var imgSrc = String(path);
+								return 'img/avatar/' + imgSrc;
+						},
+
             getLoggedUser: function () {
                 let token = localStorage.getItem('token');
                 //console.log("get Logged User");
@@ -132,12 +142,15 @@
                     headers: {'Content-Type' : 'application/json',
                         'Authorization' : 'Bearer ' + token }
                 }).then(response => {
+									this.logged_user = response.data;
+
                     this.currentPlayer = response.data.name;
                     this.playerID = response.data.id;
                     this.nickname
                     //console.log (this.logged_user.id);
                     this.isUserLogged = true;
                     console.log(this.currentPlayer);
+
 
                 }).catch(error => {
                     // não está autenticado

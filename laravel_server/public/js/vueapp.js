@@ -47803,6 +47803,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -47815,7 +47823,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 password_confirmation: null,
                 logged_user: {},
                 isUserLogged: false
-            }
+            },
+            ifError: false,
+            error: null,
+            ifSuccess: false,
+            success: null
             //registerError: false
         };
     },
@@ -47832,21 +47844,29 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             };
         },
         register: function register() {
+            var _this = this;
+
             //register(user)
             axios.post('/api/users', this.user).then(function (response) {
                 console.log(response);
                 //let successMessage = response.data.message;
-                alert('Register pending, please check your e-mail');
+                //alert('Register pending, please check your e-mail');
+                _this.ifSuccess = true;
+                _this.success = response.data.message;
             }).catch(function (error) {
                 console.log('register Error: ' + error);
-                alert('Erro: Dados não conformes!');
+                //alert('Erro: Dados não conformes!');
+                _this.ifError = true;
+                //this.error = json_decode(error.response.data.msg);
+                _this.error = "Algum dado inserido está errado/já existe, pff tente novamente";
+
                 resetUser();
             });
         },
 
 
         getLoggedUser: function getLoggedUser() {
-            var _this = this;
+            var _this2 = this;
 
             this.token = localStorage.getItem('token');
             //console.log("get Logged User");
@@ -47856,13 +47876,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     'Authorization': 'Bearer ' + this.token
                 }
             }).then(function (response) {
-                _this.logged_user = response.data;
+                _this2.logged_user = response.data;
                 //console.log (this.logged_user.id);
-                _this.isUserLogged = true;
-                console.log(_this.logged_user);
+                _this2.isUserLogged = true;
+                console.log(_this2.logged_user);
             }).catch(function (error) {
                 // não está autenticado
-                _this.isUserLogged = false;
+                _this2.isUserLogged = false;
             });
         }, // end function
 
@@ -47887,6 +47907,56 @@ var render = function() {
   return _c("div", { staticClass: "container" }, [
     _c("div", { staticClass: "row" }, [
       _c("div", { staticClass: "col-md-8 col-md-offset-2" }, [
+        _vm.ifError
+          ? _c("div", { staticClass: "alert alert-danger alert-dismissable" }, [
+              _c(
+                "a",
+                {
+                  staticClass: "close",
+                  attrs: {
+                    href: "#",
+                    "data-dismiss": "alert",
+                    "aria-label": "close"
+                  }
+                },
+                [_vm._v("×")]
+              ),
+              _vm._v(" "),
+              _c("strong", [_vm._v(_vm._s(_vm.error))])
+            ])
+          : _vm._e(),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            directives: [
+              {
+                name: "show",
+                rawName: "v-show",
+                value: _vm.ifSuccess,
+                expression: "ifSuccess"
+              }
+            ],
+            staticClass: "alert alert-success alert-dismissable"
+          },
+          [
+            _c(
+              "a",
+              {
+                staticClass: "close",
+                attrs: {
+                  href: "#",
+                  "data-dismiss": "alert",
+                  "aria-label": "close"
+                }
+              },
+              [_vm._v("×")]
+            ),
+            _vm._v(" "),
+            _c("strong", [_vm._v(_vm._s(_vm.success))])
+          ]
+        ),
+        _vm._v(" "),
         _c("h1", [_vm._v("Register")]),
         _vm._v(" "),
         _c(
@@ -49695,7 +49765,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -49742,6 +49812,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 
 
@@ -49755,7 +49828,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             activeGames: [],
             socketId: "",
             playerId: "",
-            gameID: ""
+            gameID: "",
+            logged_user: {}
         };
     },
     sockets: {
@@ -49877,6 +49951,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         close: function close(game) {
             this.$socket.emit('remove_game', { gameID: game.gameID });
         },
+        pieceImageURL: function pieceImageURL(path) {
+            var imgSrc = String(path);
+            return 'img/avatar/' + imgSrc;
+        },
+
 
         getLoggedUser: function getLoggedUser() {
             var _this = this;
@@ -49887,6 +49966,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 headers: { 'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' + token }
             }).then(function (response) {
+                _this.logged_user = response.data;
+
                 _this.currentPlayer = response.data.name;
                 _this.playerID = response.data.id;
                 _this.nickname;
@@ -50698,6 +50779,16 @@ var render = function() {
         _vm._v(" "),
         _c("br"),
         _vm._v(" "),
+        _c("div", [
+          _c("img", {
+            attrs: {
+              src: _vm.pieceImageURL(_vm.logged_user.avatar),
+              height: "100",
+              width: "80"
+            }
+          })
+        ]),
+        _vm._v(" "),
         _c("h2", [_vm._v("Current Player : " + _vm._s(_vm.currentPlayer))]),
         _vm._v(" "),
         _c("hr"),
@@ -51439,7 +51530,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             axios.get('api/users').then(function (response) {
                 _this2.users = response.data.data;
-                console.log(_this2.users);
+                //console.log(this.users);
             });
         },
         usersList: function usersList() {

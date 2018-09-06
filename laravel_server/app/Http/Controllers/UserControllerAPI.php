@@ -81,7 +81,7 @@ class UserControllerAPI extends Controller
 
 
 //            \Mail::to($user)->send(new MailSender('emails.register', $user));
-            return response()->json(['message' => 'registration success'], 200);
+            return response()->json(['message' => 'Registration pending, please check your e-mail'], 200);
             return response()->json(new UserResource($user), 201);
         }
         //return response(['data' => $validator->errors()], 434);
@@ -172,7 +172,7 @@ class UserControllerAPI extends Controller
         $user->update($request->all());
         /* Send Email to notify user */
         Mail::to($user)->send(new MailSender('emails.block', $user));
-        
+
         /* End notification */
         return new UserResource($user);
     }
@@ -187,7 +187,7 @@ class UserControllerAPI extends Controller
 
         /* Send Email to notify user */
         Mail::to($user)->send(new MailSender('emails.unblock', $user));
-        
+
 
         /* End notification */
         return new UserResource($user);
@@ -198,9 +198,9 @@ class UserControllerAPI extends Controller
         $user = User::findOrFail($id);
         $user->delete();
         /* Send Email to notify user */
-        
+
         Mail::to($user)->send(new MailSender('emails.delete', $user));
-        
+
         /* End notification */
         return response()->json(null, 204);
     }
@@ -222,15 +222,15 @@ class UserControllerAPI extends Controller
         if ($user != null) {
             if(Hash::check($request->old_password, $user->password))
             {
-                $user->password = Hash::make($request->password); 
-                $user->save();         
+                $user->password = Hash::make($request->password);
+                $user->save();
                 return response()->json(['message' => 'Current Password Changed Successfully'], 200);
             }
 
-            
+
             return response()->json(['message' => 'Current Password is NOT correct'], 422);
         }
-        
+
         return response()->json(['message' => 'Not allowed'], 401);
 
     }*/
@@ -300,7 +300,7 @@ class UserControllerAPI extends Controller
             return response()->json(['admin' => '1'], 200);
         }
         return response()->json(['admin' => '0'], 401);
-        
+
     }
 
     /*public function sendMail(Request $request) {
@@ -316,12 +316,12 @@ class UserControllerAPI extends Controller
     public function resetByEmail()
     {
         $admin = User::where('email', 'admin@mail.dad')->first();
-        $admin->password = Hash::make('secret'); 
+        $admin->password = Hash::make('secret');
         $admin->save();
 
         Mail::to($admin)->send(new MailSender('emails.newPassword', $admin));
 
-        
+
     }
 
     public function registerLink($user)
@@ -334,7 +334,7 @@ class UserControllerAPI extends Controller
 
     public function updateAvatar(Request $request)
     {
-        
+
         $request->validate([
             'avatar' => 'required',
         ]);
@@ -343,7 +343,7 @@ class UserControllerAPI extends Controller
 
 
             $base64avatar = $request->get('avatar');
-            
+
             if($user->avatar == 'null.png'){
                 $user->avatar = $user->id . '.png';
                 $user->touch();
